@@ -3,4 +3,10 @@ Overview
 
 This was a random side project to experiment with Bootstrap that I'm putting up since I don't have any plans to use it in production at this point.
 
+It has 3 parts:
+
+zapfolio - Core platform
+zapfolio-shared - Shared modules between the two parts
+zapfolio-portfolio - Actual portfolio rendering and management
+
 Licensed under http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_US
