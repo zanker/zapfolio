@@ -1,0 +1,97 @@
+.editor
+  .well.well-small.iframe-size
+    .form-horizontal
+      %label.control-label{:for => :iframe_size}= hb_i18n("usercp.websites.edit_css.js.iframe_size")
+      .controls
+        = select_tag(:iframe_size, options_for_select([[hb_i18n("usercp.websites.edit_css.js.sizes.browser"), "100%"], [hb_i18n("usercp.websites.edit_css.js.sizes.ipad_portrait"), "1024px"], [hb_i18n("usercp.websites.edit_css.js.sizes.ipad_landscape"), "768px"], [hb_i18n("usercp.websites.edit_css.js.sizes.iphone_portrait"), "480px"], [hb_i18n("usercp.websites.edit_css.js.sizes.iphone_landscape"), "320px"]], :selected => hb("website.css_layout")), :class => "input-xlarge")
+
+  .tabbable
+    %ul.nav.nav-tabs
+      %li.active.base-css
+        %a{:href => "#base-css"}= hb_i18n("usercp.websites.edit_css.js.base_css")
+      %li.restyle-css
+        %a{:href => "#restyle-css"}= hb_i18n("usercp.websites.edit_css.js.restyle_css")
+      %li.advance-css
+        %a{:href => "#advance-css"}= hb_i18n("usercp.websites.edit_css.js.advance_css")
+
+    %form.form-horizontal.small{:method => :POST, :action => "/"}
+      .well.well-small.tab-content
+        .tab-pane.active.base-css
+          = hb "unless_has_access \"basic_css\"" do
+            %p.red.bold= hb_i18n("usercp.websites.edit_css.js.better_restyling")
+            %p.red.bold= hb!("linkify \"usercp.websites.edit_css.js.upgrade_minute\" \"#{billing_subscription_path}\"")
+
+          %fieldset.control-group.large
+            %label.control-label{:for => :website_css_layout}= hb_i18n("usercp.websites.edit_css.js.layout")
+            .controls
+              %select{:name => :website_css_layout, :id => :website_css_layout, :class => "input-medium"}
+                - CONFIG[:layouts].each do |key|
+                  = hb! "option \"#{key}\" \"js.layout_names.#{key}\" website.css_layout"
+
+              %span.help-block= hb_i18n("usercp.websites.edit_css.js.layout_desc")
+
+          %a.btn.pull-left.go-back{:href => websites_path}= hb_i18n("js.cancel")
+          %input.btn.btn-success.pull-right{:type => :submit, :value => hb_i18n("js.save"), "data-loading-text" => hb_i18n("js.saving")}
+
+        .tab-pane.restyle-css
+          = hb "unless_has_access \"basic_css\"" do
+            %p.red.bold= hb_i18n("usercp.websites.edit_css.js.starter_sub_required")
+            %p.red.bold= hb!("linkify \"usercp.websites.edit_css.js.upgrade_minute\" \"#{billing_subscription_path}\"")
+            = hb "else"
+            %p
+              %strong= hb_i18n("usercp.websites.edit_css.js.mouseover_info")
+
+          %fieldset.control-group
+            %label.control-label{:for => :website_css_base_layout}= hb_i18n("usercp.websites.edit_css.js.base_layout")
+            .controls
+              %select{:name => :website_css_base_layout, :id => :website_css_base_layout, :class => "input-medium"}
+                - CONFIG[:layouts].each do |key|
+                  = hb! "option \"#{key}\" \"js.layout_names.#{key}\" website.css_layout"
+
+              %span.help-block= hb_i18n("usercp.websites.edit_css.js.base_layout_desc")
+
+          - CONFIG[:layout_vars].each do |key|
+            - next if CONFIG[:layout_composites][key] == false
+
+            %fieldset.control-group{:class => CONFIG[:layout_composites][key] ? nil : "inline"}
+              - if CONFIG[:layout_composites][key].is_a?(String)
+                - font_key = CONFIG[:layout_composites][key]
+                %label.control-label{:for => "website_css_tags_#{font_key}", :title => hb_i18n("usercp.websites.edit_css.js.layout_vars.#{key}_desc")}= hb_i18n("usercp.websites.edit_css.js.layout_vars.#{key}")
+                .controls
+                  %select{:name => "website_css_tags[#{font_key}]", :id => "website_css_tags_#{font_key}", :class => "input-medium"}
+                    - [["usercp.websites.edit_css.js.layout_default", ""], ["usercp.websites.edit_css.js.arial", "Arial"], ["usercp.websites.edit_css.js.helvetica", "Helvetica"], ["usercp.websites.edit_css.js.georgia", "Georgia"], ["usercp.websites.edit_css.js.helvetica_neue", "Helvetica Neue"], ["usercp.websites.edit_css.js.times_new_roman", "Times New Roman"]].each do |i18n, font|
+                      = hb! "option \"#{font}\" \"#{i18n}\" website.css_tags.#{font_key}"
+
+                  = text_field_tag("website_css_tags[#{key}]", hb("website.css_tags.#{key}"), :class => "colors")
+                  %span.help-block= hb_i18n("usercp.websites.edit_css.js.#{key}_desc", {:defaultValue => ""})
+              - else
+                %label.control-label{:for => "website_css_tags_#{key}", :title => hb_i18n("usercp.websites.edit_css.js.layout_vars.#{key}_desc")}= hb_i18n("usercp.websites.edit_css.js.layout_vars.#{key}")
+                .controls
+                  = text_field_tag("website_css_tags[#{key}]", hb("website.css_tags.#{key}"), :class => "colors")
+                  %span.help-block= hb_i18n("usercp.websites.edit_css.js.#{key}_desc", {:defaultValue => ""})
+
+
+          %a.btn.pull-left.go-back{:href => websites_path}= hb_i18n("js.cancel")
+          %input.btn.btn-success.pull-right{:type => :submit, :value => hb_i18n("js.save"), "data-loading-text" => hb_i18n("js.saving")}
+
+        .tab-pane.advance-css
+          %fieldset.control-group
+            = hb "unless_has_access \"skinning\"" do
+              %p.red
+                %strong= hb_i18n("usercp.websites.edit_css.js.prem_sub_required")
+              %p.red
+                %strong= hb!("linkify \"usercp.websites.edit_css.js.upgrade_minute\" \"#{billing_subscription_path}\"")
+
+            %textarea#website_custom_css{:name => :website_custom_css}
+              = hb("website.custom_css")
+
+          %a.btn.pull-left.go-back{:href => websites_path}= hb_i18n("js.cancel")
+          %input.btn.btn-success.pull-right{:type => :submit, :value => hb_i18n("js.save"), "data-loading-text" => hb_i18n("js.saving")}
+
+
+
+.preview
+  .well.well-small#iframe-status
+    = hb_i18n("usercp.websites.edit_css.js.site_loading")
+
+  %iframe#portfolio{:src => "#{hb("website.ssl_url")}/?editing=#{hb("website.edit_key")}"}

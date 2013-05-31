@@ -1,0 +1,59 @@
+#home
+  .row
+    .span12
+      %p.lead!= t(".create_pro_site", :flickr => content_tag(:span, "", :class => "flickr size-24"), :smugmug => content_tag(:span, "", :class => "smugmug size-24"))
+      %p.lead= t(".built_hassle")
+
+  .row
+    .span12
+      .well.well-small
+        %p.slight-emph= t(".site_in_minutes")
+        %p.slight-emph
+          %strong= t(".free_plans_get")
+
+        .row.features
+          - [[:layouts, "imac"], [:responsive, "magic"], [:remote_integ, "download_alt"] , [:auto_refresh, "refresh"], [:reliable, "cloud"], [:secure, "lock"]].each do |key, icon|
+            .feature
+              .icon
+                %div{:class => "icons-#{icon}"}
+              .text
+                %p= t(".features.#{key}")
+
+        %p.emph.last
+          %strong
+            = linkify_text(t(".get_started_free"), new_session_path)
+          != t(".or_use_a_demo", :demo => link_to(t(".demo_account"), demo_user_create_path, :rel => :nofollow, :class => "demo-create", :onclick => "if( this.getAttribute('data-clicked') == '1' ) { return false; } else { this.setAttribute('data-clicked', '1'); }"))
+
+  .row
+    .span
+      .well.well-small
+        %p= t(".pay_for_more", :days => CONFIG[:subscriptions][:premium][:trial_period])
+        %p.slight-emph
+          %strong= t(".starter_plan_get", :price => number_to_currency(CONFIG[:subscriptions][:starter][:monthly]))
+
+        .row.features
+          - [[:domain, "home"], [:restyling, "cogwheels"], [:faster_refresh, "refresh"]].each do |key, icon|
+            .feature
+              .icon
+                %div{:class => "icons-#{icon}"}
+              .text
+                %p= t(".features.#{key}")
+
+        %p.emph
+          %strong= t(".premium_plan_get", :price => number_to_currency(CONFIG[:subscriptions][:premium][:monthly]))
+
+        .row.features
+          - [[:analytics, "pie_chart"], [:seo, "group"], [:custom_css, "eye_open"], [:branding, "tag"], [:fastest_refresh, "refresh"]].each do |key, icon|
+            .feature
+              .icon
+                %div{:class => "icons-#{icon}"}
+              .text
+                %p= t(".features.#{key}")
+
+
+        %p.emph
+          %strong= linkify_text(t(".more_info_sub"), subscription_path)
+
+  %p.lead!= t(".have_questions", :email => mail_to(CONFIG[:contact][:email], t(".email_us")))
+
+= render :partial => "demo_user/modal"

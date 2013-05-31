@@ -1,0 +1,63 @@
+Zapfolio.demo_accounts = function(user) {
+  if( !user.has("demo_expires") ) return;
+
+  $("#logout").click(function(event) {
+    if( Zapfolio.demo_expired ) return;
+
+    event.preventDefault();
+    Zapfolio.Helpers.Confirmation("demo", function() {
+      window.location.href = $("#logout").attr("href");
+    });
+  });
+
+  var expires_at = Date.parse(user.get("demo_expires"));
+  function update_demo_expiration() {
+    var diff = Math.floor((expires_at - Date.now()) / 1000);
+    var time;
+    if( diff < 60 ) {
+      time = I18n.p(diff, "js.seconds_in");
+    } else if( diff < 3600 ) {
+      time = I18n.p(Math.floor(diff / 60), "js.minutes_in");
+    } else {
+      time = I18n.p(Math.floor(diff / 3600), "js.hours_in");
+    }
+
+    if( diff <= 0 ) {
+      var text = "<p>" + I18n.t("js.demo.expired", {click: "<a href='/sessions/new'>" + I18n.t("js.click_here") + "</a>"}) + "</p>";
+      text += I18n.t("js.demo.contact", {email: "<a href='mailto:<%= CONFIG[:contact][:email] %>' class='contact_email' data-location='demo'><%= CONFIG[:contact][:email] %></a>"});
+
+      $("#demo-expires-note").removeClass("alert-notice").addClass("alert-error");
+      $("#demo-expires-note strong").html(text);
+      $("#content").remove();
+
+      Zapfolio.demo_expired = true;
+      return;
+    }
+
+    $("#demo-expires-note strong").html(I18n.t("js.demo.expires", {time: time, click: "<a href='/sessions/new'>" + I18n.t("js.click_here") + "</a>"}));
+
+    // Make it more noticeable in the last 12 hours
+    if( diff <= 43200 ) {
+      $("#demo-expires-note").removeClass("alert-notice").addClass("alert-error");
+    }
+
+    var interval = diff >= 86400 && 3600 || diff >= 3600 && 1800 || diff > 60 && 60 || 1;
+    setTimeout(update_demo_expiration, interval * 1000);
+  }
+
+  $(Handlebars.partials["flash"]({id: "demo-expires-note", type: "notice", msg: ""})).insertBefore($("#content"));
+  update_demo_expiration();
+
+  this.demo_account = true;
+};
+
+Zapfolio.lock_demo_fields = function(scope) {
+  var demo_locked = scope.find("input[data-nodemo=\"1\"], select[data-nodemo='1']");
+  demo_locked.each(function() {
+    var element = $(this);
+    element.attr("disabled", true);
+
+    var help = element.closest(".control-group").find(".help-block, .help-inline").first();
+    help.addClass("error-red").text(I18n.t("js.demo.restriction"));
+  });
+};

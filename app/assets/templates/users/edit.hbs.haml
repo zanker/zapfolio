@@ -1,0 +1,37 @@
+.page-header
+  %h3
+    = hb_i18n("usercp.users.edit.js.settings")
+
+%form.form-horizontal.xlarge{:method => :POST, :action => "/"}
+  .row-fluid
+    .span12
+      #error-list
+
+  .row-fluid
+    .span12
+      .well.well-small
+        %fieldset.control-group
+          %label.control-label{:for => :user_full_name}= hb_i18n("usercp.users.edit.js.full_name")
+          .controls
+            = text_field_tag(:user_full_name, hb("user.attributes.full_name"), :class => "input-medium")
+
+        %fieldset.control-group
+          %label.control-label{:for => :user_email}= hb_i18n("usercp.users.edit.js.email")
+          .controls
+            = email_field_tag(:user_email, hb("user.attributes.email"), :class => "input-medium", "data-nodemo" => "1")
+            %span.help-block= hb_i18n("usercp.users.edit.js.email_desc")
+
+        %fieldset.control-group
+          %label.control-label{:for => :user_receive_emails}= hb_i18n("usercp.users.edit.js.receive_emails")
+          .controls
+            %select#user_receive_emails.input-mini
+              = hb! "option 1 \"js.yes\" user.attributes.receive_emails"
+              = hb! "option 0 \"js.no\" user.attributes.receive_emails"
+            %span.help-block= hb_i18n("usercp.users.edit.js.receive_emails_desc")
+
+  .row-fluid
+    .span12
+      .well.well-small
+        %a.btn.pull-left.go-back{:href => websites_path}= hb_i18n("js.cancel")
+        %input.btn.btn-success.pull-right{:type => :submit, :value => hb_i18n("js.save"), "data-loading-text" => hb_i18n("js.saving")}
+        .clearb

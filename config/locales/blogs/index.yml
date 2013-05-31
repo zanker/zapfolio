@@ -1,0 +1,7 @@
+en:
+  blogs:
+    index:
+      blog_posts: Blog Posts
+      read_more: Read more...
+      tags: "Tags:"
+      ago: ago

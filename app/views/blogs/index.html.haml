@@ -1,0 +1,27 @@
+.page-header
+  %h2= t(".blog_posts")
+
+- @posts.sort([:created_at, :desc]).limit(10).each do |post|
+  .blog-post
+    .row-fluid
+      .span12
+        %h3= link_to(post.title, blog_post_path(post.slug))
+
+    .well.well-small
+      .row-fluid
+        .span12
+          - if post.short_body?
+            != post.short_body
+            %p= link_to(t(".read_more"), blog_post_path(post.slug))
+          - else
+            != post.body
+
+      .row-fluid.meta
+        .span8
+          %strong= t(".tags")
+          != post.tags.map {|slug, name| link_to(name, blog_path(slug))}.join(", ")
+
+        .span4
+          .pull-right
+            = distance_of_time_in_words_to_now(post.created_at)
+            = t(".ago")

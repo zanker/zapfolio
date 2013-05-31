@@ -1,0 +1,30 @@
+.modal.hidden#demo-account
+  .modal-header
+    .settingup
+      %h3= t(".please_wait")
+    .error.hidden
+      %h3.red= t(".error")
+    .ready.hidden
+      %h3.green= t(".finished")
+
+  .modal-body
+    .settingup
+      %p= t(".setting_up")
+      %p= t(".restrictions_expires", :expires => CONFIG[:demo_length] / 1.day)
+    .error.hidden
+      %p
+    .ready.hidden
+      %p= t(".ready_to_view")
+      %p= t(".restrictions_expires", :expires => CONFIG[:demo_length] / 1.day)
+
+  .modal-footer
+    .settingup
+      %a.btn.pull-left{:href => "#", "data-toggle" => "modal", "data-target" => "#demo-account"}= t("js.cancel")
+      %a.btn.disabled.pull-right{:href => "#"}= t(".creating")
+
+    .error.hidden
+      %a.btn.pull-left{:href => "#", "data-toggle" => "modal", "data-target" => "#demo-account"}= t("js.cancel")
+
+    .ready.hidden
+      %a.btn.btn-success.pull-right{:href => websites_path}
+        = t(".go")

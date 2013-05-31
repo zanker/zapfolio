@@ -1,0 +1,96 @@
+.page-header
+  %h3
+    %a.go-back{:href => websites_path}= hb_i18n("usercp.pages.manage.js.website")
+    %span.divider /
+    = hb "if page.id" do
+      = hb "inner_i18n \"usercp.pages.manage.js.editing_page\"" do
+        usercp.pages.type.js.pages.#{hb("page.type")}.name
+
+      = hb "else"
+
+      = hb "inner_i18n \"usercp.pages.manage.js.new_page\"" do
+        usercp.pages.type.js.pages.#{hb("page.type")}.name
+
+= hb "unless_has_access page.type" do
+  .alert.alert-error<
+    .close{"data-dismiss" => :alert} x
+    %strong= hb_i18n("js.sorry")
+    = hb!("linkify \"usercp.pages.manage.js.upgrade_needed\" \"#\"")
+
+%form.form-horizontal.large#manage_page{:method => :POST, :action => "/"}
+  .row-fluid
+    .span12
+      #error-list
+
+  .row-fluid
+    .span6
+      .well.well-small
+        %fieldset.control-group
+          %label.control-label{:for => :page_status}= hb_i18n("usercp.pages.manage.js.status")
+          .controls
+            %select{:name => :page_status, :id => :page_status, :class => "input-small"}
+              = hb! "option #{Page::PUBLIC} \"js.public\" page.status"
+              = hb! "option #{Page::PRIVATE} \"js.private\" page.status"
+            %span.help-block= hb_i18n("usercp.pages.manage.js.status_desc")
+
+        %fieldset.control-group
+          %label.control-label{:for => :page_name}
+            %span.red *
+            = hb_i18n("usercp.pages.manage.js.name")
+          .controls
+            = text_field_tag(:page_name, hb("page.name"), :class => "input-small")
+            %span.help-block= hb_i18n("usercp.pages.manage.js.name_desc")
+
+        %fieldset.control-group
+          %label.control-label{:for => :page_slug}
+            %span.red *
+            = hb_i18n("usercp.pages.manage.js.slug")
+          .controls
+            .input-prepend<
+              %span.add-on /
+              = text_field_tag(:page_slug, hb("page.slug"), :class => "input-medium")
+            %span.help-block
+              = hb "website_name \"usercp.pages.manage.js.slug_desc\""
+
+        %fieldset.control-group
+          %label.control-label{:for => :page_password}= hb_i18n("usercp.pages.manage.js.password")
+          .controls
+            = hb "if page.has_password" do
+              = password_field_tag(:page_password, "**********")
+              = hb "else"
+              = password_field_tag(:page_password)
+
+            %span.help-block= hb_i18n("usercp.pages.manage.js.password_desc")
+
+        %fieldset.control-group
+          %label.control-label{:for => :page_password_confirmation}= hb_i18n("usercp.pages.manage.js.confirm_password")
+          .controls
+            = hb "if page.has_password" do
+              = password_field_tag(:page_password_confirmation, "**********")
+              = hb "else"
+              = password_field_tag(:page_password_confirmation)
+
+      = hb "unless_match page.type \"redirect\"" do
+        = hb "if_complex_page page.type" do
+          = hb "> core"
+
+
+    .span6
+      = hb "page_partial page.type" do
+        .well.well-small.page-partial{:id => "page-" + hb("page.type")}
+          = hb! "partial"
+
+      = hb "unless_match page.type \"redirect\"" do
+        = hb "unless_complex_page page.type" do
+          = hb "> core"
+
+  .row-fluid
+    .span12
+      .well.well-small
+        %a.btn.pull-left.go-back{:href => websites_path}= hb_i18n("js.cancel")
+        = hb "has_access page.type" do
+          %input.btn.btn-success.pull-right{:type => :submit, :value => hb_i18n("js.save"), "data-loading-text" => hb_i18n("js.saving")}
+          = hb "else"
+          %input.btn.btn-success.pull-right{:type => :submit, :value => hb_i18n("js.upgrade_required"), :disabled => true}
+
+        .clearb

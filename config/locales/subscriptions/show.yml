@@ -1,0 +1,14 @@
+en:
+  subscriptions:
+    show:
+      subscriptions: Subscription Plans
+      or: or
+      login_auth: Authentication
+      login_with: Login with
+      purchase: Purchase
+      days_free: "%{days} free trial"
+      sub_desc: Subscriptions come with a %{free}. Cancel at any time, no hassle, no tricks.
+      redirect_purchase: Before you can start a %{type} subscription, you need to login to Zapfolio through the site you store your photos on.
+      take_a_minute: This will only take a minute, and you'll be brought to the checkout page after.
+      smugmug_login: Login with SmugMug
+      flickr_login: Login with Flickr

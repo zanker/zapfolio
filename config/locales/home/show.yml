@@ -1,0 +1,34 @@
+en:
+  home:
+    show:
+      create_pro_site: Create professional portfolio sites with your %{flickr} Flickr and %{smugmug} SmugMug photos!
+      site_in_minutes: Your own website can be online in minutes, you don't have to pay a cent.
+      built_hassle: Let us manage your website, so you can get back to taking photographs.
+      free_plans_get: With our FREE plan you get...
+      pay_for_more: If you want more features, we offer paid plans with a FREE %{days} day trial.
+      starter_plan_get: For only %{price}/month, a Starter plan gets...
+      premium_plan_get: Not enough? A %{price}/month Premium plan gives you everything above plus
+      demo_account: demo account
+      get_started_free: Ready? {Get your free account}, no login required.
+      or_use_a_demo: Or try out a %{demo}.
+      more_info_sub: Check out our {subscription plans} for more info.
+      email_us: email us
+      have_questions: If you have any questions, don't hesitate to %{email}.
+
+      features:
+        layouts: Simple set of themes to show off your work
+        responsive: Responsive layouts for mobile, tablets and desktops
+        remote_integ: Use your existing photos on Flickr or SmugMug
+        auto_refresh: Automatic syncing of changes from Flickr and SmugMug
+        reliable: Reliable website hosting, without the hassle of managing it yourself
+        secure: Choose what photos you want public, or password protect them
+
+        domain: Use your own domain instead of a Zapfolio subdomain
+        restyling: Personalize your portfolio with the theme editor
+        faster_refresh: Faster photo syncing with priority over free accounts
+
+        analytics: Add analytics code for insight into your visitors
+        seo: Sitemaps and SEO options to improve your visibility
+        custom_css: Fully customizable CSS, change anything on your site
+        branding: No more "Powered by Zapfolio" at the bottom
+        fastest_refresh: Blazing fast photo updates with the highest priority

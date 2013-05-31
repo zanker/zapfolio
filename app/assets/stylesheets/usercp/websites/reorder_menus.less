@@ -1,0 +1,32 @@
+#reorder_menus {
+  ol {
+    margin-bottom: 0;
+  }
+
+  .name {
+    padding: 4px;
+  }
+
+  .name:hover, .dragging > .name {
+    border: @grayLight;
+    background-color: @grayLighter;
+    .border-radius(4px);
+    cursor: move;
+  }
+
+  .modal-body.dragging ol {
+    color: @grayLight;
+  }
+
+  .parents.dragging > .parent, .placeholder, .children.dragging {
+    color: @grayDark !important;
+  }
+
+  li.dragging {
+    color: @black !important;
+
+    .children {
+      display: none;
+    }
+  }
+}

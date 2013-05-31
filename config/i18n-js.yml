@@ -1,0 +1,3 @@
+translations:
+  - file: 'public/javascripts/en.js'
+    only: ['*.time.*', '*.date.*', '*.usercp.*.*.js', '*.usercp.titles.js', '*.js.*']

@@ -1,0 +1,16 @@
+.modal#intro
+  .modal-header
+    %h3= hb_i18n("usercp.websites.intro.js.welcome_to_zapfolio")
+
+  .modal-body
+    %p= hb_i18n("usercp.websites.intro.js.constantly_improving")
+    %p= hb_i18n("usercp.websites.intro.js.contact_us", :email => mail_to(CONFIG[:contact][:email], nil, :class => :contact_email, "data-location" => "intro"))
+    %p.slight-emph
+      %strong= hb_i18n("usercp.websites.intro.js.what_now")
+    %p.slight-emph= hb_i18n("usercp.websites.intro.js.just_close", :close => link_to(t("js.close"), "#", "data-toggle" => :modal, "data-target" => "#intro"))
+    %p.slight-emph= hb! "intro_suggestion"
+
+  .modal-footer
+    %a.btn.btn-primary.pull-right{:href => "#"}
+      = hb_i18n("usercp.websites.intro.js.lets_go")
+

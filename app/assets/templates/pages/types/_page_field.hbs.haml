@@ -1,0 +1,16 @@
+%tr
+  %td.control-group
+    %input.input-large.page_fields_name{:type => :text, :value => hb("name"), "data-id" => hb("id"), :name => "page_fields[#{hb("id")}][name]"}
+  %td.control-group
+    %select.input-mini.page_fields_required{"data-id" => hb("id"), :name => "page_fields[#{hb("id")}][required]"}
+      = hb! "option 0 \"js.no\" required"
+      = hb! "option 1 \"js.yes\" required"
+
+  %td.control-group
+    %select.input-small.page_fields_input_type{"data-id" => hb("id"), :name => "page_fields[#{hb("id")}][input_type]"}
+      = hb! "option \"text_field\" \"usercp.pages.manage.js.text_field\" input_type"
+      = hb! "option \"text_area\" \"usercp.pages.manage.js.text_area\" input_type"
+
+  %td
+    %a.btn.btn-mini.btn-danger.square.remove_field{:href => "#", :title => hb_i18n("usercp.pages.manage.js.remove_field")}
+      %i.icon-white.icon-minus

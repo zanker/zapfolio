@@ -1,0 +1,14 @@
+.page-header
+  %h3
+    = hb_i18n("usercp.billing.purchased.js.receipt")
+
+.row-fluid
+  .span12
+    .well.well-small
+      = hb! "billing_receipt"
+
+.row-fluid
+  .span12
+    .well.well-small
+      %a.btn.btn-success.pull-right.js-nav{:href => websites_path}= hb_i18n("usercp.billing.purchased.js.finished")
+      .clearb

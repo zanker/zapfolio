@@ -1,0 +1,12 @@
+en:
+  usercp:
+    websites:
+      manage_sub_menu:
+        js:
+          editing_menu: Editing sub menu within
+          adding_menu: Adding sub menu to
+          save: Save
+          saving: Saving
+          goes_to_page: Goes to page
+          page_desc: What page the menu should go to when clicked
+          name: Menu Name

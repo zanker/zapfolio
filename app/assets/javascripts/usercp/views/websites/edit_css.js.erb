@@ -1,0 +1,234 @@
+Zapfolio.Views.Websites.EditCSS = Backbone.View.extend({
+  id: "edit_css",
+  page_id: "website/edit_css",
+
+  initialize: function(data) {
+    this.website = data.website;
+    this.user = data.user;
+    this.modified_fields = {};
+    this.website.bind("change", this.render, this);
+
+    this.mp_base = "Website -> Edit CSS";
+    this.mp_track(null, {active_style: this.website.attributes.active_style == <%= Website::BASIC %> && "base" || this.website.attributes.active_style == <%= Website::RESTYLE %> && "restyle" || "advance"});
+    this.browser_needs("xhr2");
+  },
+
+  events: {
+    "change #iframe_size": "update_iframe_size",
+    "change form select": "throttled_css_update",
+    "change form input[type='text']": "throttled_css_update",
+    "change form textarea": "throttled_css_update",
+    "keyup form input[type='text']": "throttled_css_update",
+    "keyup form textarea": "throttled_css_update",
+    "click .nav-tabs a": "select_tab",
+    "submit": "save"
+  },
+
+  render_target: function(content) {
+    $("#content").closest(".container").after(content);
+  },
+
+  render: function() {
+    this.$el.html(HandlebarsTemplates["websites/edit_css"]({user: this.user, website: this.website.toJSON()}));
+    this.$el.find("form .control-label").tooltip({animation: false, placement: "right"});
+    return this;
+  },
+
+  save: function(event) {
+    event.preventDefault();
+    this.$el.find("input[type='submit']").button("loading");
+    this.cleanup_errors();
+
+    var form_data = this.append_formdata("website_", this.website.attributes);
+
+    var active = this.$el.find(".tab-pane.active");
+    if( active.hasClass("restyle-css") ) {
+      form_data.append("active_style", <%= Website::RESTYLE %>);
+    } else if( active.hasClass("base-css") ) {
+      form_data.append("active_style", <%= Website::BASIC %>);
+    } else {
+      form_data.append("active_style", <%= Website::CUSTOM %>);
+    }
+
+    var scope = this;
+    this.website.save({}, {contentType: false, data: form_data, error: function(model, res) { scope.handle_errors(res); }, success: function() { scope.saved(); }});
+    return false;
+  },
+
+  saved: function() {
+    Zapfolio.Helpers.Flash("success", I18n.t("usercp.websites.edit_css.js.css_saved"));
+
+    var style = "advance";
+    if( this.website.attributes.active_style == <%= Website::BASIC %> ) {
+      style = "base"
+    } else if( this.website.attributes.active_style == <%= Website::RESTYLE %> ) {
+      style = "restyle"
+    }
+
+    this.mp_track("Saved", {active_style: style});
+    this.modified_fields = {};
+
+    this.committed = true;
+    this.$el.find(".go-back").click();
+  },
+
+  // State
+  on_add: function() {
+    this.$el.find(".base-css, .restyle-css, .advance-css").removeClass("active");
+
+    var style = "advance";
+    if( this.website.attributes.active_style == <%= Website::BASIC %> ) {
+      style = "base"
+    } else if( this.website.attributes.active_style == <%= Website::RESTYLE %> ) {
+      style = "restyle"
+    }
+
+    this.$el.find("." + style + "-css").addClass("active");
+    this.active_style = style;
+
+    if( !this.user.has_access("basic_css") ) {
+      this.$el.find(".restyle-css input, .restyle-css select").attr("disabled", true);
+    }
+
+    if( !this.user.has_access("skinning") ) {
+      this.$el.find(".advance-css input, .advance-css select, .advance-css textarea").attr("disabled", true);
+    }
+
+    // Handle message callback
+    var scope = this;
+    this.message_callback = function(event) { scope.post_message(event); };
+    this.timer_callback = function() { scope.update_timer(); };
+    this.css_callback = function() { scope.css_changed(); };
+
+    if( window["addEventListener"] ) {
+      window.addEventListener("message", this.message_callback, false);
+    } else {
+      window.attachEvent("onmessage", this.message_callback);
+    }
+
+    Zapfolio.unload_confirmation = function(type) { return scope.unload_confirmation(type) };
+
+    // Colors!
+    this.$el.find(".colors").colorpicker({change: function() { scope.throttled_css_update(); }});
+  },
+
+  on_remove: function() {
+    if( this.timer ) clearInterval(this.timer);
+    if( this.css_timer ) clearTimeout(this.css_timer);
+    delete(Zapfolio.unload_confirmation);
+
+    if( window["removeEventListener"] ) {
+      window.removeEventListener("message", this.message_callback);
+    } else {
+      window.detachEvent("onmessage", this.message_callback);
+    }
+  },
+
+  // Confirm before leaving the page if they have unsaved changes
+  unload_confirmation: function(type) {
+    var msg;
+    if( this.modified_fields[this.active_style]  ) {
+      msg = I18n.t("usercp.websites.edit_css.js.modified_type." + this.active_style);
+    }
+
+    if( msg ) {
+      return type == "js" ? !confirm(msg) : msg;
+    }
+  },
+
+  // Message handling
+  post_message: function(event) {
+    if( event.origin != this.website.attributes.ssl_url ) return;
+
+    if( this.timer ) clearInterval(this.timer);
+    if( this.css_timer ) clearTimeout(this.css_timer);
+
+    this.$el.find("#iframe-status").removeClass("red");
+
+    // iframe is ready, send the CSS over
+    if( event.data == "ready" ) {
+      this.css_changed();
+    // We're reloading the page
+    } else if( event.data == "reloading" ) {
+      this.$el.find("#iframe-status").addClass("red").text(I18n.t("usercp.websites.edit_css.js.site_loading"));
+    // We just finished syncing
+    } else if( event.data == "updated" ) {
+      this.last_updated = Date.now();
+      this.update_timer();
+      this.timer = setInterval(this.timer_callback, 2500);
+    }
+  },
+
+  // CSS updating
+  update_iframe_size: function(event) {
+    var width = $(event.currentTarget).val();
+    this.$el.find("#portfolio").width(width).css("min-width", width == "100%" ? "1025px" : width);
+  },
+
+  select_tab: function(event) {
+    event.preventDefault();
+    $(".base-css, .restyle-css, .advance-css").removeClass("active");
+    $("." + $(event.currentTarget).attr("href").replace("#", "")).addClass("active");
+
+    this.active_style = $(".base-css").hasClass("active") && "base" || $(".restyle-css").hasClass("active") && "restyle" || "advance";
+    this.mp_track("Tabbed", {active_style: this.active_style});
+
+    if( this.css_timer ) clearTimeout(this.css_timer);
+    this.css_changed();
+  },
+
+  update_timer: function() {
+    var diff = Math.floor((Date.now() - this.last_updated) / 1000);
+    var time = diff < 60 ? I18n.p(diff, "usercp.websites.edit_css.js.seconds_ago") : I18n.p(Math.floor(diff / 60), "usercp.websites.edit_css.js.minutes_ago");
+    this.$el.find("#iframe-status").text(I18n.t("usercp.websites.edit_css.js.css_updated", {time: time}));
+  },
+
+  throttled_css_update: function() {
+    if( this.css_timer ) clearTimeout(this.css_timer);
+    this.css_timer = setTimeout(this.css_callback, 500);
+    this.modified_fields[this.active_style] = true;
+  },
+
+  css_changed: function() {
+    if( !this.iframe ) {
+      this.iframe = document.getElementById("portfolio").contentWindow;
+    }
+
+    if( this.timer ) clearInterval(this.timer);
+    this.$el.find("#iframe-status").text(I18n.t("usercp.websites.edit_css.js.css_updating"));
+
+    // Advance CSS, just send it over as-is
+    if( this.$el.find(".tab-pane.active.advance-css").length == 1 ) {
+      this.iframe.postMessage({type: "custom", css: $("#website_custom_css").val()}, this.website.attributes.ssl_url);
+
+    // Restyling a layout, send their color choices
+    } else if( this.$el.find(".tab-pane.active.restyle-css").length == 1 ) {
+      var data = {type: "restyle", layout: $("#website_css_base_layout").val(), vars: {}};
+
+      var colors = <%= CONFIG[:layout_vars].to_json %>, val;
+      for( var i=0, total=colors.length; i < total; i++ ) {
+        val = $("#website_css_tags_" + colors[i]).val();
+        if( $.trim(val) == "" ) continue;
+
+        data.vars[colors[i]] = val;
+      }
+
+      this.iframe.postMessage(data, this.website.attributes.ssl_url);
+
+    // Just layouting
+    } else {
+      this.iframe.postMessage({type: "layout", layout: $("#website_css_layout").val(), css: ""}, this.website.attributes.ssl_url);
+    }
+  },
+
+  // State management
+  saveState: function() {
+    this.previousState = $.extend({}, this.website.attributes);
+  },
+
+  restoreState: function() {
+    this.website.attributes = this.previousState;
+  }
+});
+
+_.extend(Zapfolio.Views.Websites.EditCSS.prototype, Zapfolio.Helpers.Errors, Zapfolio.Helpers.Forms, Zapfolio.Helpers.Requirements, Zapfolio.Helpers.Mixpanel);

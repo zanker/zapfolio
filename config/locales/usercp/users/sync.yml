@@ -1,0 +1,32 @@
+en:
+  usercp:
+    users:
+      sync:
+        js:
+          sync_status: Sync Status
+          albums: Albums
+          last_updated: "{{provider}} album updated {{time}}"
+          last_sync: Last synced data {{time}}
+          next_sync: Next automatic sync {{time}}
+          resyncs_used: You have used up your {{limit}} manual resyncs, they will reset {{time}}.
+          sync_info_timer:
+            one: You can request a manual resync {{count}} more time before having to wait for them to reset {{time}}.
+            other: You can request a manual resync {{count}} more times before having to wait for them to reset {{time}}.
+          sync_info:
+            one: You have {{count}} manual resync left. They reset every {{hours}}.
+            other: You have {{count}} manual resyncs left. They reset every {{hours}}.
+          request_sync: Request Sync
+          sync_pending: Sync Pending
+          loading_status: Loading status...
+          no_sync_running: No sync is running right now.
+          sync_upgrade: "{Upgrading} your subscription reduces the time between automatic syncs and allows more manual requests per hour."
+          sync_manual: You can manually queue a sync if you need to update right now.
+          sync_nothing: You will have to wait for your manual syncs to reset to queue an update. Or wait until the next automatic update.
+
+          total_albums:
+            one: "{{count}} album loaded"
+            other: "{{count}} albums loaded"
+
+          total_media:
+            one: "{{count}} media loaded"
+            other: "{{count}} media loaded"

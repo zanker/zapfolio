@@ -1,0 +1,35 @@
+.page-header
+  %h3
+    = hb_i18n("usercp.users.sync.js.sync_status")
+
+
+.row-fluid
+  .span4
+    .well.well-small#user_stats
+      = hb! "build_stats"
+
+  .span4
+    .well.well-small#user_request
+      = hb! "request_sync"
+
+  .span4
+    .well.well-small
+      = hb "unless user.attributes.syncing" do
+        %p= hb_i18n("usercp.users.sync.js.no_sync_running")
+        = hb "scoped_if user \"can_upgrade_sub\"" do
+          %p.last
+            %strong= hb! "linkify \"usercp.users.sync.js.sync_upgrade\" \"#{billing_subscription_path}\""
+          = hb "else"
+
+          = hb "scoped_if user \"can_resync\"" do
+            %p.last= hb_i18n("usercp.users.sync.js.sync_manual")
+            = hb "else"
+            %p.last= hb_i18n("usercp.users.sync.js.sync_nothing")
+
+
+        = hb "else"
+        .progress.progress-striped.active
+          .bar
+
+        %strong.status_text
+          = hb_i18n("usercp.users.sync.js.loading_status")

@@ -1,0 +1,69 @@
+.page-header
+  %h3
+    %a.go-back{:href => websites_path}= hb_i18n("usercp.websites.layout.js.website")
+    %span.divider /
+    = hb_i18n("usercp.websites.layout.js.layout_configuration")
+
+%form.form-horizontal.medium{:method => :POST, :action => "/"}
+  .row-fluid
+    .span12
+      #error-list
+
+  .row-fluid
+    .span12
+      .well.well-small
+        %strong
+          %p.css-editor= hb!("linkify \"usercp.websites.layout.js.edit_css\" \"#{websites_edit_css_path}\"")
+        = hb_i18n("usercp.websites.layout.js.edit_css_save")
+
+  .row-fluid
+    .span12
+      .well.well-small
+        %fieldset.control-group.large
+          %label.control-label{:for => :website_site_align}= hb_i18n("usercp.websites.layout.js.site_align")
+          .controls
+            %select{:name => :website_site_align, :id => :website_site_align, :class => "input-small"}
+              = hb! "option #{Website::CENTER} \"js.center\" website.site_align"
+              = hb! "option #{Website::LEFT} \"js.left\" website.site_align"
+
+            %span.help-inline= hb_i18n("usercp.websites.layout.js.site_align_desc")
+
+        %fieldset.control-group.large
+          %label.control-label{:for => :website_menu_align}= hb_i18n("usercp.websites.layout.js.menu_align")
+          .controls
+            %select{:name => :website_menu_align, :id => :website_menu_align, :class => "input-small"}
+              = hb! "option #{Website::LEFT} \"js.left\" website.menu_align"
+              = hb! "option #{Website::RIGHT} \"js.right\" website.menu_align"
+              = hb! "option #{Website::TOP} \"js.top\" website.menu_align"
+
+            %span.help-inline= hb_i18n("usercp.websites.layout.js.menu_align_desc")
+
+        %fieldset.control-group.large
+          %label.control-label{:for => :website_width}= hb_i18n("usercp.websites.layout.js.width")
+          .controls
+            = number_field_tag(:website_width, hb("website.width"), :min => 0, :class => "input-mini")
+            %select.input-mini#website_width_unit{:name => "website_width_unit"}
+              = hb! "option \"px\" \"px\" website.width_unit"
+              = hb! "option \"%\" \"%\" website.width_unit"
+            %span.help-inline= hb_i18n("usercp.websites.layout.js.width_desc")
+
+        %fieldset.control-group.large
+          %label.control-label{:for => :website_logo}= hb_i18n("usercp.websites.layout.js.logo")
+          .controls
+            %input.input-file{:type => :file, :name => :website_logo, :id => :website_logo, "data-nodemo" => "1"}
+            = hb "if website.logo_uid" do
+              %label.checkbox
+                %input{:type => :checkbox, :name => :website_remove_logo, :value => "1", "data-nodemo" => "1"}
+                = hb_i18n("usercp.websites.layout.js.remove_logo")
+                = surround "(", ")" do
+                  %a#preview-logo{:href => "#", "data-url" => hb("website.logo_url"), "data-title" => hb_i18n("usercp.websites.layout.js.uploaded_logo")}= hb_i18n("usercp.websites.layout.js.view_logo")
+
+            %span.help-block= hb_i18n("usercp.websites.layout.js.logo_desc_1")
+            %span.help-block= hb_i18n("usercp.websites.layout.js.logo_desc_2")
+
+  .row-fluid
+    .span12
+      .well.well-small
+        %a.btn.pull-left.go-back{:href => websites_path}= hb_i18n("js.cancel")
+        %input.btn.btn-success.pull-right{:type => :submit, :value => hb_i18n("js.save"), "data-loading-text" => hb_i18n("js.saving")}
+        .clearb

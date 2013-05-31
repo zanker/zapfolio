@@ -1,0 +1,15 @@
+en:
+  sessions:
+    new:
+      pick_login_method: You can login with your %{flickr} Flickr or %{smugmug} SmugMug account, pick one below
+      upgrade_any_time: Sorry, your demo account has expired. Login below to continue using Zapfolio.
+      already_demoed: Sorry, your demo account has expired. If you don't want to sign up yet and have questions still, feel free to contact us at %{email}.
+      login_with: Login with %{provider}
+
+      process_flickr_1: "Logging in with %{flickr} Flickr only takes a minute. You will be brought to the following screen:"
+      process_flickr_2: Click "OK, I'LL AUTHORIZE IT" and you will be logged into your Zapfolio account. That's it!
+
+      process_smugmug_1: "Logging in with %{smugmug} SmugMug only takes a minute."
+      process_smugmug_2: "You will be redirected to SmugMugs site on a page that looks similar to the below:"
+      process_smugmug_new_3: "Click \"AUTHORIZE\" and you will be redirected back to Zapfolio. That's it!"
+      process_smugmug_ret_3: "Login to SmugMug and you will be redirected back to Zapfolio. That's it!"

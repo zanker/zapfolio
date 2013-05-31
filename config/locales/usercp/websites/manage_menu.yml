@@ -1,0 +1,14 @@
+en:
+  usercp:
+    websites:
+      manage_menu:
+        js:
+          editing_menu: Editing a Menu
+          adding_menu: Adding a Menu
+          save: Save
+          saving: Saving
+          only_applies: Only applies when the menu is on the left or right side
+          opened: Opened by default?
+          goes_to_page: Goes to page
+          page_desc: What page the menu should go to when clicked
+          name: Menu Name

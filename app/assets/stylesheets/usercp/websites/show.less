@@ -1,0 +1,108 @@
+#manage-menu {
+  .box-shadow(0 0 0);
+  margin-left: 1.9%;
+  border: 1px solid @tableBorder;
+
+  .row-header {
+    margin-bottom: 5px;
+
+    h4 {
+      font-family: @baseFontFamily;
+    }
+
+    #new-menu {
+      margin-right: 4px;
+    }
+  }
+
+  .get-started {
+    padding: 6px 4px 6px 4px;
+    border-top: 1px solid @grayLight;
+    font-weight: bold;
+
+    i {
+      vertical-align: top;
+    }
+  }
+
+  .parents {
+    list-style: none;
+    margin: 0;
+
+    li.parent {
+      padding: 6px 4px 6px 4px;
+      line-height: 20px;
+      border-top: 1px solid @grayLight;
+
+      .pull-right {
+        .btn {
+          vertical-align: top;
+        }
+      }
+    }
+
+    ul.children {
+      list-style: none;
+      margin: 4px 0 12px 0px;
+
+      li {
+        padding: 4px 4px 4px 12px;
+        .border-radius(2px);
+        background-color: darken(@grayLighter, 2%);
+
+        &:hover {
+          background-color: darken(@grayLighter, 5%);
+        }
+      }
+    }
+
+    .header {
+      display: inline-block;
+      width: 100%;
+
+      &:hover {
+        background-color: darken(@grayLighter, 5%);
+      }
+    }
+
+    span, strong {
+      vertical-align: middle;
+    }
+  }
+}
+
+#manage-pages {
+  td:nth-child(3), th:nth-child(3), th:last-child {
+    text-align: center;
+  }
+
+  td:nth-child(3), td:last-child {
+    width: 64px;
+  }
+
+  td:last-child {
+    text-align: center;
+
+    .btn-danger {
+      margin-right: 6px;
+    }
+  }
+
+  .action-header {
+    th:last-child {
+      text-align: right;
+    }
+  }
+
+  .get-started {
+    td {
+      background-color: @white;
+      font-weight: bold;
+      text-align: left;
+
+      i {
+        vertical-align: top;
+      }
+    }
+  }
+}

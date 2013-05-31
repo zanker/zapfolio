@@ -1,0 +1,5 @@
+en:
+  mailer:
+    notification:
+      trial_will_end:
+        subject: Your %{plan} trial ends in 3 days

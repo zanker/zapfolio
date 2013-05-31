@@ -1,0 +1,88 @@
+.page-header
+  %h3
+    = hb_i18n("usercp.billing.checkout.js.checkout")
+
+%form.form-horizontal{:method => :POST, :action => "/"}
+  .row-fluid
+    .span12
+      #error-list
+
+  .row-fluid
+    .span12
+      .well.well-small
+        = hb "if user.has_credit_card" do
+          %p= hb! "billing_confirmation"
+          %p.last= hb! "user_credit_card"
+          = hb "else"
+          %p.last= hb! "billing_confirmation"
+
+  = hb "unless_or user.attributes.email has_website" do
+    .row-fluid
+      .span12
+        .well.well-small
+          = hb "unless user.attributes.email" do
+            %fieldset.control-group
+              %label.control-label{:for => :user_email}= hb_i18n("usercp.dashboard.setup.js.email")
+              .controls
+                = email_field_tag(:user_email)
+                %span.help-inline= hb_i18n("usercp.dashboard.setup.js.email_desc")
+
+          = hb "unless has_website" do
+            %fieldset.control-group
+              %label.control-label{:for => :website_subdomain}= hb_i18n("usercp.dashboard.setup.js.subdomain")
+              .controls
+                .input-append<
+                  #{text_field_tag(:website_subdomain, "", :class => "input-small")}#{content_tag(:span, ".zapfol.io", :class => "add-on")}
+                %span.help-inline= hb_i18n("usercp.dashboard.setup.js.subdomain_desc")
+
+  .row-fluid
+    .span12
+      .well.well-small
+        = hb "unless user.has_credit_card" do
+          %fieldset.control-group
+            %label.control-label{:for => :checkout_number}
+              %span.red *
+              = hb_i18n("usercp.billing.checkout.js.card_number")
+            .controls
+              %input.input-medium#checkout_number{:type => :text}
+              %span.help-inline= image_tag("creditcards.png")
+
+
+          %fieldset.control-group
+            %label.control-label{:for => :checkout_cvc}
+              %span.red *
+              = hb_i18n("usercp.billing.checkout.js.cvv")
+            .controls
+              %input.input-mini#checkout_cvc{:type => :text}
+              %span.help-inline= hb_i18n("usercp.billing.checkout.js.cvv_desc")
+
+          %fieldset.control-group
+            %label.control-label{:for => :checkout_exp_month}
+              %span.red *
+              = hb_i18n("usercp.billing.checkout.js.expiration")
+            .controls
+              %select.input-small#checkout_exp_month
+                - current_month = Date.today.month
+                - 1.upto(12).each do |month|
+                  %option{:value => month, :selected => current_month == month ? "selected" : nil}= "%02d (%s)" % [month, I18n.t("date.abbr_month_names")[month]]
+              %select.input-mini#checkout_exp_year
+                - current_year = Date.today.year
+                - current_year.upto(current_year + 4) do |year|
+                  %option{:value => year, :selected => current_year == year ? "selected" : nil}= year
+
+              %span.help-inline= hb_i18n("usercp.billing.checkout.js.expiration_desc")
+
+        %fieldset.control-group
+          %label.control-label{:for => :checkout_coupon}
+            = hb_i18n("usercp.billing.checkout.js.coupon")
+          .controls
+            %input.input-medium#checkout_coupon{:type => :text}
+            %span.help-inline= hb_i18n("usercp.billing.checkout.js.coupon_desc")
+
+  .row-fluid
+    .span12
+      .well.well-small
+        %a.btn.pull-left.js-nav{:href => websites_path}= hb_i18n("js.cancel")
+        %input.btn.btn-success.pull-right{:type => :submit, :value => hb_i18n("usercp.billing.checkout.js.subscribe"), "data-loading-text" => hb_i18n("usercp.billing.checkout.js.subscribing")}
+
+        .clearb

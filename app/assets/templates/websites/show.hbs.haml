@@ -1,0 +1,117 @@
+.page-header
+  %h3
+    = hb_i18n("usercp.websites.edit.js.website")
+
+.row-fluid
+  .span7#manage-pages
+    %table.table.table-bordered.table-striped.table-condensed
+      %thead
+        %tr.action-header
+          %th{:colspan => 3}= hb_i18n("usercp.websites.show.js.pages")
+          %th
+            %a.btn.btn-inverse.btn-mini.square#new-page{:href => websites_page_type_path, :title => hb_i18n("usercp.websites.show.js.new_page")}
+              %i.icon-white.icon-plus
+
+        = hb "if pages" do
+          %tr
+            %th= hb_i18n("usercp.websites.show.js.name")
+            %th= hb_i18n("usercp.websites.show.js.type")
+            %th= hb_i18n("usercp.websites.show.js.home_page")
+            %th= hb_i18n("usercp.websites.show.js.actions")
+
+      %tbody
+        = hb "unless pages" do
+          %tr.get-started
+            %td{:colspan => 4}
+              %p= hb_i18n("usercp.websites.show.js.no_pages_yet_1")
+              %p.last= hb_i18n("usercp.websites.show.js.no_pages_yet_2", :icon => "<i class='icon-black icon-plus'></i>")
+          = hb "else"
+          = hb "each pages" do
+            %tr{"data-page-id" => hb("id")}
+              %td= hb "name"
+              %td
+                = hb "inner_i18n" do
+                  usercp.pages.type.js.pages.#{hb("type")}.name
+
+              %td
+                = hb "if_match ../website.home_page_id id" do
+                  %span.green
+                    %strong= hb_i18n("js.yes")
+                  = hb "else"
+                  %a.btn.btn-mini.set-home{:href => "#", "data-loading-text" => hb_i18n("js.saving"), :title => hb_i18n("usercp.websites.show.js.set_home_page")}= hb_i18n("usercp.websites.show.js.set")
+
+              %td
+                %a.btn.btn-danger.btn-mini.square.delete-page{:href => "#", :title => hb_i18n("usercp.websites.show.js.remove_page")}
+                  %i.icon-white.icon-minus
+                %a.btn.btn-primary.btn-mini.edit-page{:href => websites_edit_page_path("pid").gsub("pid", hb("id"))}
+                  = hb_i18n("usercp.websites.show.js.edit")
+
+  .span5.well.well-small.nopad#manage-menu
+    .row-header
+      %h4.pull-left= hb_i18n("usercp.websites.show.js.menu")
+
+      .pull-right
+        = hb "if website.menus" do
+          %a.btn.btn-inverse.btn-mini#new-menu{:href => websites_reorder_path}
+            = hb_i18n("usercp.websites.show.js.reorder")
+
+        %a.btn.btn-inverse.btn-mini.square#new-menu{:href => websites_add_menu_path, :title => hb_i18n("usercp.websites.show.js.new_menu")}
+          %i.icon-white.icon-plus
+      .clearb
+
+    = hb "unless website.menus" do
+      .get-started
+        %p= hb_i18n("usercp.websites.show.js.no_menus_yet_1")
+        %p.last= hb_i18n("usercp.websites.show.js.no_menus_yet_2", :icon => "<i class='icon-black icon-plus'></i>")
+
+      = hb "else"
+      %ul.parents
+        = hb "each website.menus" do
+          %li.parent{"data-menu-id" => hb("id")}
+            .header
+              %strong.name= hb "name"
+              %span.page
+                = hb "if page_id" do
+                  = hb_i18n("usercp.websites.show.js.goes_to")
+                  %a.edit-page{:href => websites_edit_page_path("pageid").gsub("pageid", hb("page_id"))}<
+                    = hb("page_name")
+                  = hb_i18n("usercp.websites.show.js.page")
+
+                  = hb "else"
+                  = surround "(", ")" do
+                    = hb_i18n("usercp.websites.show.js.no_page_set")
+
+              .pull-right
+                %a.btn.btn-danger.btn-mini.square.remove-menu{:href => "#", :title => hb_i18n("usercp.websites.show.js.remove_menu")}
+                  %i.icon-white.icon-minus
+
+                %a.btn.btn-primary.btn-mini.edit-menu{:href => websites_menu_path("menuid").gsub("menuid", hb("id"))}
+                  = hb_i18n("usercp.websites.show.js.edit")
+
+                %a.btn.btn-primary.btn-mini.square.add-sub-menu{:href => websites_add_sub_menu_path("menuid").gsub("menuid", hb("id")), :title => hb_i18n("usercp.websites.show.js.new_sub_menu")}
+                  %i.icon-white.icon-plus
+
+            = hb "if sub_menus" do
+              %ul.children
+                = hb "each sub_menus" do
+                  %li{"data-sub-menu-id" => hb("id")}
+                    %span.name
+                      = hb "name"
+
+                    %span
+                      = hb "if page_id" do
+                        = hb_i18n("usercp.websites.show.js.goes_to")
+                        %a.edit-page{:href => websites_edit_page_path("pageid").gsub("pageid", hb("page_id"))}<
+                          = hb("page_name")
+                        = hb_i18n("usercp.websites.show.js.page")
+
+                        = hb "else"
+                        = surround "(", ")" do
+                          = hb_i18n("usercp.websites.show.js.no_page_set")
+
+                    .pull-right
+                      %a.btn.btn-danger.btn-mini.square.remove-sub-menu{:href => "#", :title => hb_i18n("usercp.websites.show.js.remove_sub_menu")}
+                        %i.icon-white.icon-minus
+
+                      %a.btn.btn-info.btn-mini.edit-sub-menu{:href => websites_sub_menu_path("mid", "sid").gsub("mid", hb("../id")).gsub("sid", hb("id"))}
+                        = hb_i18n("usercp.websites.show.js.edit")

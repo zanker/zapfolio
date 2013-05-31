@@ -1,0 +1,23 @@
+= hb "if_empty albums" do
+  %fieldset.control-group.large
+    %p
+      %strong.red= hb_i18n("usercp.pages.manage.js.albums_empty")
+
+  = hb "else"
+  %fieldset.control-group.large#album-select
+    %p.info= hb_i18n("usercp.pages.manage.js.albums")
+    %p.info.red= hb_i18n("usercp.pages.manage.js.albums_private_desc")
+
+    - [["public", Album::PUBLIC], ["mixed", Album::MIXED], ["private", Album::PRIVATE]].each do |type_key, type|
+      = hb "if album_stats.t#{type}" do
+        %p.album-type
+          %strong= hb_i18n("usercp.pages.manage.js.#{type_key}_albums")
+          = hb_i18n("usercp.pages.manage.js.#{type_key}_albums_desc")
+        .albums
+          = hb "each albums" do
+            = hb "if_exact_match privacy #{type}" do
+              .album
+                = hb! "checkbox \"page_album_ids[]\" ../../page.album_ids id"
+                %label
+                  %i{:class => type == Album::PUBLIC && "icon-eye-open" || type == Album::MIXED && "icon-eye-close" || type == Album::PRIVATE && "icon-lock"}
+                  = hb("title")

@@ -1,0 +1,22 @@
+en:
+  usercp:
+    billing:
+      checkout:
+        js:
+          checkout: Checkout
+          card_name: Name on Card
+          card_name_desc: The name on your credit card.
+          card_number: Credit Card Number
+          subscribe: Subscribe
+          subscribing: Subscribing
+          cvv: CVV/CVC
+          cvv_desc: 4 digit code on the front of your card for American Express. 3 digit on the back for everything else.
+          expiration: Expiration
+          expiration_desc: When the credit card expires.
+          confirm_downgrade: Account subscription will be downgraded to {{plan}}.
+          confirm_upgrade: Account subscription will be upgraded to {{plan}}! Please make sure your credit card is correct before upgrading.
+          credit_card_info: Your {{type}} card ending in {{last4}} (exp {{exp_month}}/{{exp_year}}) will be used. You can visit the {{billing_page}} if you need to change this.
+          billing_page: billing page
+          coupon: Coupon Code
+          coupon_desc: If you have a coupon code, you can enter it here.
+

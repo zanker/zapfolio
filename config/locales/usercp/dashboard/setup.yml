@@ -1,0 +1,18 @@
+en:
+  usercp:
+    dashboard:
+      setup:
+        js:
+          welcome: Welcome to Zapfolio
+          website_email_desc: Before you can start configuring your website, we just need the website name and email address. Both can be changed later.
+          website_name_desc: We just need your website name quickly for you to get started. You can change this later.
+          email: Email
+          email_desc: We won't spam you, promise.
+          subdomain: Subdomain
+          subdomain_desc: URL to your portfolio site. You can change this later.
+          agreeing_terms_policy: By creating your portfolio site, you are agreeing to our {Privacy Policy} and {Terms of Service}.
+          cant_do_that: You need to finish setting up your account first. If you're having problems or have any questions, contact us at {{email}}.
+          setup_account: Setup Account
+
+
+

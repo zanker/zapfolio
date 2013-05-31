@@ -1,0 +1,39 @@
+#select_type.modal
+  .modal-header
+    %h3
+      = hb_i18n("usercp.pages.type.js.select_page_type")
+
+  .modal-body
+    %p= hb_i18n("usercp.pages.type.js.page_desc")
+
+    -#= hb "has_plan \"premium\"" do
+    -#  = hb "unless plan" do
+    -#    %p.red
+    -#      = hb_i18n("usercp.pages.type.js.upgrade_needed")
+    -#      %a{:href => "#"}= hb_i18n("usercp.pages.type.js.click_here")
+    -#      = hb_i18n("usercp.pages.type.js.to_upgrade")
+
+
+    %table.table-bordered.table-striped.table-condensed
+      %thead
+        %tr
+          %th= hb_i18n("usercp.pages.type.js.name")
+          %th= hb_i18n("usercp.pages.type.js.info")
+          %th
+      %tbody
+        - [:static, :about, :contact, :redirect, :mediagrid, :mediacarousel, :mediarow].each do |type|
+          %tr
+            %td= hb_i18n("usercp.pages.type.js.pages.#{type}.name")
+            %td= hb_i18n("usercp.pages.type.js.pages.#{type}.desc")
+            %td
+              %a.add-page.btn.btn-primary.btn-mini{:href => websites_add_page_path(type)}
+                = hb_i18n("usercp.pages.type.js.pick")
+              -#= hb "has_access \"#{type}\"" do
+              -#  %a.add-page.btn.btn-primary{:href => websites_add_page_path(type)}
+              -#    = hb_i18n("usercp.pages.type.js.pick")
+              -#  = hb "else"
+              -#  %span.label.label-important= hb_i18n("usercp.pages.type.js.sub_needed")
+
+  .modal-footer
+    %input.btn.pull-left{:type => :button, :value => hb_i18n("js.cancel"), "data-dismiss" => :modal}
+

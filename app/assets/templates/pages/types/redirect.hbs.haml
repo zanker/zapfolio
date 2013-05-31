@@ -1,0 +1,5 @@
+%fieldset.control-group
+  %label.control-label{:for => :page_location}= hb_i18n("usercp.pages.manage.js.location")
+  .controls
+    = text_field_tag(:page_location, hb("page.location"))
+    %span.help-block= hb_i18n("usercp.pages.manage.js.location_desc")

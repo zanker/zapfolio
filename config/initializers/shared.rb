@@ -1,0 +1,1 @@
+Dir[Rails.root.join("shared/initializers/*.rb")].each {|f| require f}

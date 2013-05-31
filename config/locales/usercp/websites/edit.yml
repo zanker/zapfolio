@@ -1,0 +1,34 @@
+en:
+  usercp:
+    websites:
+      edit:
+        js:
+          website: Website
+          configuration: Configuration
+          warning: Warning!
+          important: Important!
+          subdomain: Subdomain
+          subdomain_desc: Changing your subdomain will cause Page not Found (404) errors for anyone going to the old URL.
+          subdomain_domain_desc: Your existing domain will also 404 until DNS updates to the new subdomain.
+          domain: Domain
+          domain_desc_1: In order to use your own domain for your portfolio site, you need to make some DNS changes.
+          domain_desc_2: First, you need to login to your domain registrar and add a new "A" record to your root (sometimes shown as "@") record to {{ip}}.
+          domain_desc_3: After that, you add a new "CNAME" record to "www" and set it to
+          domain_desc_4: . Then you just need to save your changes!
+          domain_desc_5: It can take up to 24 hours for changes to show up. If you have any questions or issues, don't hesitate to contact us at {{email}}.
+          domain_upgrade: In order to set a custom domain, you need at least Starter subscription plan. If you want a custom domain, you can {click here} to upgrade quickly.
+          site_name: Site Name
+          site_name_desc: The name of the website will show up in the title tag when set.
+          meta_keywords: Meta Keywords
+          meta_keywords_desc: Describe your site with a few short keywords, such as "Weddings, Photographer".
+          meta_description: Meta Description
+          meta_description_desc: Short (<160 characters) description of your site, such as "Wedding photographer for hire in San Francisco, California".
+          analytic_ga: Google Analytics
+          analytic_ga_desc: Your Google Analytics tracking ID to include on every page of your portfolio site.
+          upgrade_required: "{Upgrade} to a Pro subscription to change this."
+          favicon: Favicon
+          favicon_desc: A small 16x16 ico file that is shown within the browser on your portfolio site.
+          uploaded_favicon: Uploaded Favicon
+          view_icon: view icon
+          website_saved: Website settings saved!
+          remove_favicon: Remove Favicon

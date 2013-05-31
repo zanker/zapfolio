@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /privacy-policy
+Disallow: /terms-of-service
+
+Sitemap: https://www.zapfol.io/sitemap.xml

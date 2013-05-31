@@ -1,0 +1,149 @@
+Zapfolio.Views.Billing.Show = Backbone.View.extend({
+  page_id: "billing/show",
+
+  initialize: function(data) {
+    this.user = data.user;
+
+    this.mp_base = "Billing";
+    this.mp_track();
+  },
+
+  events: {
+    "click #cancel_sub": "cancel_sub",
+    "click #restart-sub": "restart_sub",
+    "submit": "save"
+  },
+
+  render: function() {
+    this.$el.html(HandlebarsTemplates["billing/show"]({user: this.user}));
+    return this;
+  },
+
+  on_add: function() {
+    // Lazy load in the Stripe JS
+    if( typeof(Stripe) != "function" ) {
+      var scope = this;
+      $.ajax({
+        dataType: "script",
+        cache: true,
+        url: "https://js.stripe.com/v1/",
+        complete: function() {
+          if( scope.waiting ) {
+            scope.$el.find("form").submit();
+          }
+          Stripe.setPublishableKey("<%= CONFIG[:stripe][:publishable_key] %>");
+        },
+        error: function() {
+          Zapfolio.Helpers.Errors.request_error("stripe");
+        }
+      });
+    }
+  },
+
+  // Form management
+  restart_sub: function() {
+    this.$el.find("#restart-sub").button("loading");
+
+    var scope = this;
+    Backbone.sync("update", this.user, {
+      url: "/admin/billing/restart",
+      contentType: "application/json",
+      data: JSON.stringify({token: this.stripe_token}),
+      error: function(res) {
+        if( res.responseText.match(/stripe_error/) ) {
+          scope.stripe_error(JSON.parse(res.responseText).stripe_error);
+        } else {
+          scope.handle_errors(res);
+        }
+      },
+      success: function(res) {
+        scope.mp_track("Restarted Sub", {restarted_sub_plan: scope.user.sub_plan()});
+
+        scope.user.set(res);
+        scope.render();
+      }
+    });
+  },
+
+  cancel_sub: function() {
+    this.$el.find("#cancel_sub").button("loading");
+
+    var scope = this;
+    var sub_plan = this.user.sub_plan();
+    Backbone.sync("delete", this.user, {
+      url: "/admin/subscription",
+      success: function(res) {
+        scope.mp_track("Sub Canceled", {canceled_sub_plan: sub_plan});
+
+        scope.user.set(res);
+        scope.render();
+      }
+    });
+  },
+
+  stripe_error: function(error) {
+    var field = "billing_" + error.param;
+    // Default if needed for debugging purposes on production
+    if( $("#" + field).length == 0 ) field = "billing_number";
+
+    this.display_error(this.$el, field, "", [error.message]);
+
+    this.$el.find("input[type='submit']").button("reset");
+    this.$el.find(".control-group.error").find("input:first, select:first").first().focus();
+  },
+
+  save: function(event) {
+    event.preventDefault();
+    this.$el.find("input[type='submit']").button("loading");
+    this.cleanup_errors();
+
+    var scope = this;
+
+    // We're sending the credit card to get a token
+    if( !this.stripe_token ) {
+      // Stripes not loaded yet, so we're going to wait before submitting
+      if( typeof(Stripe) != "object" ) {
+        this.waiting = true;
+        return;
+      }
+
+      Stripe.createToken({
+        number: $("#billing_number").val(),
+        cvc: $("#billing_cvc").val(),
+        exp_month: $("#billing_exp_month").val(),
+        exp_year: $("#billing_exp_year").val()
+      }, function(status, response) {
+        if( response.error ) {
+          scope.stripe_error(response.error);
+        } else {
+          scope.stripe_token = response.id;
+          scope.$el.find("form").submit();
+        }
+      });
+
+      return;
+    }
+
+    // Updating the CC info we have for them
+    Backbone.sync("update", this.user, {
+      url: "/admin/billing",
+      contentType: "application/json",
+      data: JSON.stringify({token: this.stripe_token}),
+      error: function(res) {
+        if( res.responseText.match(/stripe_error/) ) {
+          scope.stripe_error(JSON.parse(res.responseText).stripe_error);
+        } else {
+          scope.handle_errors(res);
+        }
+      },
+      success: function(res) {
+        scope.mp_track("Card Updated");
+
+        scope.user.set(res);
+        scope.render();
+      }
+    });
+  }
+});
+
+_.extend(Zapfolio.Views.Billing.Show.prototype, Zapfolio.Helpers.Errors, Zapfolio.Helpers.Mixpanel);

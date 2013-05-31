@@ -1,0 +1,30 @@
+en:
+  usercp:
+    titles:
+      js:
+        generic: Admin Panel
+        suffix: "- Zapfolio"
+
+        website/show: Manage Site
+        website/reorder_menus: Reorder Menus
+        website/new_menu: Adding a New Menu
+        website/edit_menu: Editing {{name} Menu
+        website/new_sub_menu: Adding Sub Menu to {{name}}
+        website/edit_sub_menu: Editing {{name} Sub Menu
+        website/layout: Configure Layout
+        website/edit_css: Editing Site CSS
+        website/edit: Configure Site
+
+        user/edit: Settings
+        user/sync: Sync Status
+
+        page/type: Page Types
+        page/new: Adding a new Page
+        page/edit: Editing {{name}} Page
+
+        dashboard/setup: Setup Account
+
+        billing/show: Billing
+        billing/checkout: "{{plan}} Subscription Checkout"
+        billing/purchased: "{{plan}} Subscription Purchased!"
+        billing/subscriptions: Subscription Plans

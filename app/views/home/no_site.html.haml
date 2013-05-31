@@ -1,0 +1,10 @@
+.page-header
+  %h2= t(".portfolio_not_found")
+
+.row-fluid
+  .span12
+    .well.well-small
+      %p.red= t(".no_site_info")
+      - if params[:url] and params[:url] =~ /zapfol\.io/
+        %p= linkify_text(t(".make_site_url", :url => content_tag(:strong, params[:url])), new_session_path)
+      %p.last= linkify_text(t(".contact_support"), [:email, CONFIG[:contact][:email]])

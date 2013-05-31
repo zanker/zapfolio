@@ -1,0 +1,152 @@
+en:
+  js:
+    form_errors: Problem with your input
+    cancel: Cancel
+    save: Save
+    saving: Saving
+    create: Create
+    creating: Creating
+    back: Back
+    dismiss: Dismiss
+    "yes": "Yes"
+    "no": "No"
+    center: Center
+    left: Left
+    right: Right
+    top: Top
+    bottom: Bottom
+    public: Public
+    private: Private
+    enabled: Enabled
+    disabled: Disabled
+    dismiss: Dismiss
+    sorry: Sorry
+    upgrade_required: Upgrade Required
+    active: Active
+    zapfolio: Zapfolio
+    click_here: click here
+    ajax_leave: We're saving your data right now. Changes might not be saved if you leave right now.
+
+    layout_names:
+      light: Light
+      dark: Dark
+
+    demo:
+      expired: Thanks for trying Zapfolio, your demo account has expired. You can sign up for free, %{click} to get started.
+      contact: You can contact us at %{email} if you have any questions.
+      expires: Your demo account expires %{time}. Permanent accounts are free and do not expire, %{click} to sign up for free.
+      restriction: This cannot be changed on demo accounts. Permanent accounts have no such restriction.
+      do_restriction: Demo accounts cannot do this. Permanent accounts have no such restrictions.
+
+    providers:
+      flickr: Flickr
+      smugmug: SmugMug
+
+    sub_plans:
+      free: Free
+      starter: Starter
+      premium: Pro
+
+    hours:
+      one: hour
+      other: "{{count}} hours"
+
+    seconds_ago:
+      one: 1 second ago
+      other: "{{count}} seconds ago"
+    minutes_ago:
+      one: 1 minute
+      other: "{{count}} minutes ago"
+    hours_ago:
+      one: 1 hour ago
+      other: "{{count}} hours ago"
+    days_ago:
+      one: 1 day ago
+      other: "{{count}} days ago"
+    weeks_ago:
+      one: 1 week ago
+      other: "{{count}} weeks ago"
+
+    seconds_in:
+      one: in 1 second
+      other: in {{count}} seconds
+    minutes_in:
+      one: in 1 minute
+      other: in {{count}} minutes
+    hours_in:
+      one: in 1 hour
+      other: in {{count}} hours
+    days_in:
+      one: in 1 day
+      other: in {{count}} days
+    weeks_in:
+      one: in 1 week
+      other: in {{count}} weeks
+
+    fallback_time: on {{time}}
+
+    request_error:
+      "500":
+        title: Critical Error
+        desc_1: Sorry, we had a critical error while loading your request.
+        desc_2: We've been notified about this and will get it fixed soon. Contact us at {{email}} if you have any further questions.
+      "409":
+        title: Conflict Error
+        desc_1: Sorry, while editing it seems the data on the page changed. Please reload to avoid overwriting anything.
+        desc_2: You can contact us at {{email}} if you think this was in error.
+      "402":
+        title: Subscription Required
+        desc_1: Sorry, you seem to be doing something that requires a subscription plan you don't have.
+        desc_2: If this is in error, please contact us at {{email}} and will get it fixed.
+      stripe:
+        title: Javascript Load Failure
+        desc_1: Sorry, we were unable to load the security javascript for this transaction.
+        desc_2: If this error persists, please contact us at {{email}} and will get it fixed.
+      toolong:
+        title: Gave Up
+        desc_1: Sorry, it took far longer than it should have to load your data.
+        desc_2: Please contact us at {{email}} so we can get this sorted out for you.
+      load:
+        title: Load Error
+        desc_1: Sorry, while loading your data we ran into a critical error.
+        desc_2: Please contact {{email}} and will quickly get it sorted out.
+
+    requirements:
+      xhr2: "Sorry, this page requires XHR2, a feature that is not present in your browser. Please use either: Chrome 7+, FireFox 4+, Safari 5+ or Opera 12+ on this page."
+
+  titles:
+    "404": Page Not Found (404)
+    "500": Server Error (500)
+    site_not_found: Site doesn't exist (404)
+    home: Instant Portfolio Sites
+    blog: Blog
+    login: Login to Manage Your Account
+    subscription_plans: Subscription Plans
+    privacy_policy: Privacy Policy
+    terms_conditions: Terms & Conditions
+    not_setup: "%{name} not yet setup"
+    not_setup_generic: Portfolio site not setup
+
+
+  page_errors:
+    must_login: Sorry, you must be logged in to access this page.
+    logged_in: You are already logged in!
+    no_website: You must create a website first.
+    demo_expired: Your demo account has expired. If you create your own account, it will never expire.
+    demo_throttle: Sorry, you can only create new demo accounts once every 24 hours. Please contact support at %{email} if you need this reset.
+
+  errors:
+    messages:
+      too_big: cannot be bigger than %{count} KiB
+
+  mongo_mapper:
+    attributes:
+      analytic:
+        ga: Google Analytics
+
+    errors:
+      models:
+        website:
+          attributes:
+            custom_css:
+              bad_css: "%{error} (line %{line})"

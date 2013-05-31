@@ -1,0 +1,1 @@
+Zapfolio.Views.Pages = {};

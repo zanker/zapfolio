@@ -1,0 +1,7 @@
+en:
+  home:
+    no_site:
+      portfolio_not_found: Portfolio Doesn't Exist
+      no_site_info: Sorry, you tried to view a portfolio site that doesn't exist.
+      make_site_url: Want a portfolio site at %{url}? It can be your own free site in minutes. {Login with Flickr} to get started.
+      contact_support: If you think this is an error, or you have any further questions, don't hesitate to {email us}.

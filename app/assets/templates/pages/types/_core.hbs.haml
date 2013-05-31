@@ -1,0 +1,11 @@
+.well.well-small
+  %fieldset.control-group
+    %label.control-label{:for => :page_title}= hb_i18n("usercp.pages.manage.js.title")
+    .controls
+      = text_field_tag(:page_title, hb("page.title"), :class => "input-medium")
+      %span.help-block= hb_i18n("usercp.pages.manage.js.title_desc")
+
+  %fieldset.control-group
+    %label{:for => :page_title}= hb_i18n("usercp.pages.manage.js.body_desc")
+    %textarea#page_body{:name => :page_body}
+      = hb("page.body")

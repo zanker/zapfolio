@@ -1,0 +1,15 @@
+.modal
+  .modal-header
+    %h3
+      = hb "inner_i18n" do
+        usercp.generic.confirmation.js.#{hb("type")}.title
+
+  .modal-body
+    %p.red
+      = hb "inner_i18n" do
+        usercp.generic.confirmation.js.#{hb("type")}.desc
+
+  .modal-footer
+    %input.btn.pull-left{:type => :button, :value => hb_i18n("js.cancel"), "data-dismiss" => :modal}
+    %input.btn.btn-danger.pull-right{:type => :button, :value => hb_i18n("js.yes")}
+

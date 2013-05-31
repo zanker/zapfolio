@@ -1,0 +1,145 @@
+Zapfolio.Views.Pages.Manage = Backbone.View.extend({
+  initialize: function(data) {
+    this.albums = data.albums;
+    this.pages = data.pages;
+    this.page = data.page;
+    this.user = data.user;
+    this.website = data.website;
+    this.inserted = this.page ? !!this.page.id : false;
+
+    this.albums.bind("reset", this.rerender_partial, this);
+
+    this.mp_base = "Page -> " + (!this.page.id ? "New" : "Edit");
+    this.mp_track(null, {page_type: this.page.get("type")});
+    this.browser_needs("xhr2");
+  },
+
+  title: function() {
+    if( this.page.id ) {
+      return I18n.t("usercp.titles.js.page/edit", {name: this.page.get("name")});
+    } else {
+      return I18n.t("usercp.titles.js.page/new");
+    }
+  },
+
+  events: {
+    "click #add_field": "add_field",
+    "click .remove_field": "remove_field",
+    "click #album-select .album label": "toggle_album",
+    "mouseenter #preview-picture": "preview_popover",
+    "submit": "save"
+  },
+
+  render: function() {
+    if( this.page.get("body") ) {
+      this.page.set("body", this.page.get("body").replace(/<br>/g, "\n"));
+    }
+
+    var album_stats = {};
+    for( var i=0, total=this.albums.length; i < total; i++ ) {
+      var privacy = "t" + this.albums.at(i).get("privacy");
+      if( !album_stats[privacy] ) album_stats[privacy] = 0;
+      album_stats[privacy] += 1;
+    }
+
+    this.$el.html(HandlebarsTemplates["pages/manage"]({website: this.website.toJSON(), page: this.page.toJSON(), user: this.user, albums: this.albums.toJSON(), album_stats: album_stats}));
+    this.$el.find("a[title]").tooltip({animation: false});
+    return this;
+  },
+
+  rerender_partial: function() {
+    if( this.$el.find(".page-partial").length == 0 ) return;
+    this.$el.find(".page-partial").html(HandlebarsTemplates["pages/types/" + this.page.attributes.type]({page: this.page.toJSON(), user: this.user, albums: this.albums.toJSON()}));
+  },
+
+  save: function(event) {
+    event.preventDefault();
+    this.$el.find("input[type='submit']").button("loading");
+    this.cleanup_errors();
+
+    var form_data = this.append_formdata("page_", this.page.attributes);
+
+    var scope = this;
+    this.page.save({}, {contentType: false, data: form_data, error: function(model, res) { scope.handle_errors(res); }, success: function() { scope.saved(); }});
+
+    if( !this.inserted ) {
+      this.inserted = true;
+      this.new_page = true;
+      this.pages.push(this.page);
+    }
+
+    return false;
+  },
+
+  saved: function() {
+    Zapfolio.Helpers.Flash("success", I18n.t("usercp.pages.manage.js.page_" + (this.new_page ? "created" : "updated"), {name: this.page.attributes.name}));
+
+    this.mp_track("Saved", {page_type: this.page.get("type")});
+
+    this.committed = true;
+    this.$el.find(".go-back").click();
+  },
+
+  // Check if we need to popup a lightbox saying it's loading data still
+  on_add: function() {
+    if( this.page.attributes.type != "mediagrid" && this.page.attributes.type != "mediarow" && this.page.attributes.type != "mediacarousel" ) {
+      return;
+    }
+
+    if( this.user.attributes.syncing !== true ) return;
+
+    // Check if we're syncing albums data still
+    var has_syncing = this.albums.length == 0;
+    this.albums.each(function(album) {
+      if( album.attributes.syncing === true ) has_syncing = true;
+    });
+
+    if( !has_syncing ) return;
+
+    this.sync_modal = new Zapfolio.Views.Users.PopupSync({user: this.user, albums: this.albums});
+    $("#content").append(this.sync_modal.render().el);
+    this.sync_modal.$el.modal({});
+  },
+
+  on_remove: function() {
+    if( this.sync_modal ) this.sync_modal.on_remove();
+  },
+
+  // Field management for contact
+  toggle_album: function(event) {
+    var input = $(event.currentTarget).closest(".album").find("input");
+    input.attr("checked", !input.is(":checked"));
+  },
+
+  add_field: function(event) {
+    event.preventDefault();
+
+    if( !this.field_ids ) this.field_ids = 0;
+    $(Handlebars.partials["page_field"]({id: (this.field_ids += 1), required: 0, input_type: "text_field"})).appendTo($("#manage_fields tbody"));
+    $("#manage_fields tbody tr:last a[title]").tooltip({animation: false});
+  },
+
+  remove_field: function(event) {
+    event.preventDefault();
+
+    var tr = $(event.currentTarget).closest("tr");
+    tr.find("a[data-original-title]").tooltip("hide");
+    tr.remove();
+  },
+
+  // Popover
+  preview_popover: function() {
+    $("#preview-picture").popover({animation: false, trigger: "hover", content: function() {
+      return "<img src='" + $("#preview-picture").data("url") + "'>";
+    }}).popover("show");
+  },
+
+  // Handle restoring state if we cancel
+  restoreState: function() {
+    if( this.inserted && this.new_page ) {
+      this.pages.pop({silent: true});
+    }
+  }
+});
+
+_.extend(Zapfolio.Views.Pages.Manage.prototype, Zapfolio.Helpers.Errors, Zapfolio.Helpers.Forms, Zapfolio.Helpers.Requirements, Zapfolio.Helpers.Mixpanel);

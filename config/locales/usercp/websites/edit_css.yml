@@ -1,0 +1,96 @@
+en:
+  usercp:
+    websites:
+      edit_css:
+        js:
+          layout: Layout Style
+          layout_desc: What kind of base style should be shown on your site.
+          base_layout: Base Layout
+          base_layout_desc: If you don't specify a value below, will pull it from the layout specified.
+          light: Light
+          dark: Dark
+          css_saved: CSS changes saved!
+          site_loading: Waiting for site to load...
+          css_updated: Last updated {{time}} ago
+          css_updating: Updating preview...
+          better_restyling: Starter subscriptions offer improved layout controls.
+          starter_sub_required: Layout restyling requires a Starter subscription.
+          prem_sub_required: Advanced CSS editing requires a Pro subscription.
+          upgrade_minute: Upgrading only takes a minute, {click here} to upgrade.
+          base_css: Layout
+          restyle_css: Layout Restyling
+          advance_css: Advanced
+          layout_default: Default
+          arial: Arial
+          helvetica: Helvetica
+          georgia: Georgia
+          helvetica_neue: Helvetica Neue
+          times_new_roman: Times New Roman
+          iframe_size: Preview Size
+          iframe_size_desc: Easily preview how the site will look at different layouts
+          mouseover_info: Mouseover any color option for info on where it's used.
+
+          modified_type:
+            advance: You haven't saved your custom CSS changes. Are you sure you want to leave this page?
+            restyle: You haven't saved your layout restyling changes. Are you sure you want to leave this page?
+            base: You haven't saved your layout changes. Are you sure you want to leave this page?
+
+          layout_vars:
+            background: Background
+            background_desc: Primary background for the entire portfolio.
+            text_color: Font
+            text_color_desc: Default font styling.
+            title_color: Title Font
+            title_color_desc: Title font styling.
+            error_color: Error Text
+            error_color_desc: Used for any kind of error text, such as invalid password.
+            success_color: Success Text
+            success_color_desc: Used when an action is performed, such as contacting you.
+            menu_text_color: Menu Font
+            menu_text_color_desc: Default menu styling.
+            menu_text_hover_color: Menu Hover
+            menu_text_hover_color_desc: Text color when the menu is hovered over.
+            menu_active_color: Active Menu
+            menu_active_color_desc: Text color when the user is on the menus page.
+            menu_parent_opened: Opened Menu Parent
+            menu_parent_opened_desc: Text color when the user is on one of the menus children.
+            menu_bg_active: Menu Active BG
+            menu_bg_active_desc: Menu background color when it's the active page.
+            menu_bg_hover: Menu Hover BG
+            menu_bg_hover_desc: Menu background color when it's being hovered over.
+            subtle_border: Photo Border
+            subtle_border_desc: Color for the border around photos when used.
+            sidebar_border: Menu/Side Border
+            sidebar_border_desc: When using left/right menus, this is the spacer. Otherwise, it's the border for the menu.
+            pagination_color: Pagination
+            pagination_color_desc: Default text color for pagination text.
+            pagination_color_active: Active Pagination
+            pagination_color_active_desc: Text color when the user is on the paginations page.
+            pagination_border: Pagination Border
+            pagination_border_desc: Border color for pagination.
+            pagination_bg: Pagination BG
+            pagination_bg_desc: Background color for pagination boxes.
+            pagination_bg_active: Active Pagination BG
+            pagination_bg_active_desc: Background color when the user is on the paginations page.
+            button_bg_start: Button BG Start
+            button_bg_start_desc: Start color for the button gradient for buttons.
+            button_bg_end: Button BG End
+            button_bg_end_desc: End color for the button gradient for buttons.
+            button_border: Button Border
+            button_border_desc: Border color for buttons.
+            button_color: Button
+            button_color_desc: Text color for buttons.
+
+          sizes:
+            browser: Browser (1025px min-width)
+            ipad_portrait: iPad Portrait (1024px wide)
+            ipad_landscape: iPad Landscape (768px wide)
+            iphone_portrait: iPhone Portrait (480px wide)
+            iphone_landscape: iPhone Landscape (320px wide)
+
+          seconds_ago:
+            one: 1 second
+            other: "{{count}} seconds"
+          minutes_ago:
+            one: 1 minute
+            other: "{{count}} minutes"

@@ -1,0 +1,3 @@
+.alert{:class => "alert-#{hb("type")}", :id => hb("id")}
+  %button.close{"data-dismiss" => "alert"} X
+  %strong= hb!("msg")

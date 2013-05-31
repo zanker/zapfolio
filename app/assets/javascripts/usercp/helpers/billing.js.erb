@@ -1,0 +1,58 @@
+Handlebars.registerHelper("billing_confirmation", function() {
+  if( this.user.attributes.subscription && typeof(this.user.attributes.subscription) == "object" ) {
+    if( Zapfolio.Subscriptions[this.user.attributes.subscription.plan].tier > Zapfolio.Subscriptions[this.plan].tier ) {
+      return I18n.t("usercp.billing.checkout.js.confirm_downgrade", {plan: "<strong>" + I18n.t("js.sub_plans." + this.plan) + "</strong>"});
+    } else {
+      return I18n.t("usercp.billing.checkout.js.confirm_upgrade", {plan: "<strong>" + I18n.t("js.sub_plans." + this.plan) + "</strong>"});
+    }
+  } else {
+    return I18n.t("usercp.billing.checkout.js.confirm_upgrade", {plan: "<strong>" + I18n.t("js.sub_plans." + this.plan) + "</strong>"});
+  }
+});
+
+Handlebars.registerHelper("user_credit_card", function() {
+  return I18n.t("usercp.billing.checkout.js.credit_card_info", {type: this.user.attributes.stripe_card.type, last4: this.user.attributes.stripe_card.last4, exp_month: this.user.attributes.stripe_card.exp_month, exp_year: this.user.attributes.stripe_card.exp_year, billing_page: "<a href='/admin/billing' class='js-nav'>" + I18n.t("usercp.billing.checkout.js.billing_page") + "</a>"});
+});
+
+Handlebars.registerHelper("user_credit_card_file", function() {
+  return I18n.t("usercp.billing.show.js.credit_card_info", {type: "<strong>" + this.user.attributes.stripe_card.type + "</strong>", last4: "<strong>" + this.user.attributes.stripe_card.last4 + "</strong>", exp_month: this.user.attributes.stripe_card.exp_month, exp_year: this.user.attributes.stripe_card.exp_year});
+});
+
+Handlebars.registerHelper("billing_receipt", function() {
+  var text = "<p><strong>" + I18n.t("usercp.billing.purchased.js.receipt_" + this.subscription.change_type, {plan: I18n.t("js.sub_plans." + this.subscription.plan)}) + "</strong></p>";
+
+  if( this.subscription.status == "trialing" ) {
+   text += "<p>" + I18n.t("usercp.billing.purchased.js.receipt_trial", {type: this.user.attributes.stripe_card.type, last4: this.user.attributes.stripe_card.last4, trial_end: this.subscription.trial_end, amount: I18n.l("currency", this.subscription.cost / 100), trial_days: this.subscription.trial_days}) + "</p>";
+  } else if( this.subscription.status == "active" ) {
+    text += "<p>" + I18n.t("usercp.billing.purchased.js.receipt_active", {type: this.user.attributes.stripe_card.type, last4: this.user.attributes.stripe_card.last4, period_end: this.subscription.period_end, amount: I18n.l("currency", this.subscription.cost / 100)}) + "</p>";
+  }
+
+  text += "<p class='last'>" + I18n.t("usercp.billing.purchased.js.cancel_sub", {email: "<a href='mailto:<%= CONFIG[:contact][:email] %>'><%= CONFIG[:contact][:email] %></a>", billing_page: "<a href='/admin/billing' class='js-nav'>" + I18n.t("usercp.billing.purchased.js.billing_page") + "</a>"});
+  return text;
+});
+
+Handlebars.registerHelper("unless_sub_status", function(status, context) {
+  if( !this.user.has_subscription || this.user.attributes.subscription.status != status ) {
+    return context.fn(this);
+  } else if( context.inverse ) {
+    return context.inverse(this);
+  }
+});
+
+Handlebars.registerHelper("billing_sub_status", function() {
+  var sub = this.user.attributes.subscription;
+
+  if( sub.status == "active" ) {
+    return "<p class='last'><strong>" + I18n.t("usercp.billing.show.js.sub_active", {plan: I18n.t("js.sub_plans." + this.user.attributes.subscription.plan), period_end: I18n.l("date.formats.long", new Date(sub.period_end))}) + "</strong></p>";
+
+  } else if( this.user.attributes.subscription.status == "trialing" ) {
+    return "<p class='last'><strong>" + I18n.t("usercp.billing.show.js.sub_trial", {plan: I18n.t("js.sub_plans." + this.user.attributes.subscription.plan), trial_end: I18n.l("date.formats.long", new Date(sub.trial_end))}) + "</strong></p>";
+
+  } else if( this.user.attributes.subscription.status == "past_due" ) {
+    return "<p class='red'><strong>" + I18n.t("usercp.billing.show.js.sub_past_due", {plan: I18n.t("js.sub_plans." + this.user.attributes.subscription.plan)}) + "</strong></p>" +
+           "<p class='last'><strong>" + I18n.t("usercp.billing.show.js.also_contact", {plan: I18n.t("js.sub_plans." + this.user.attributes.subscription.plan), email: "<a href='mailto:<%= CONFIG[:contact][:email] %>'><%= CONFIG[:contact][:email] %></a>"}) + "</strong></p>";
+
+  } else if( this.user.attributes.subscription.status == "canceled" ) {
+    return "<p class='red last'>" + I18n.t("usercp.billing.show.js.sub_canceled", {plan: I18n.t("js.sub_plans." + this.user.attributes.subscription.plan), period_end: I18n.l("date.formats.long", new Date(sub.period_end))}) + "</p>";
+  }
+});

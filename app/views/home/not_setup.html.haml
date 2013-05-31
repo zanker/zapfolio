@@ -1,0 +1,12 @@
+.page-header
+  %h2= t(".not_finished")
+
+.row-fluid
+  .span12
+    .well.well-small
+      %p!= t(".setup_to_do", :url => content_tag(:strong, @website.full_url))
+
+      - if @website and user_signed_in? and current_user._id == @website.user_id
+        %p= linkify_text(t(".setup_direct"), websites_page_type_path, websites_path)
+
+      %p.last!= t(".contact_support", :email => mail_to(CONFIG[:contact][:email]))

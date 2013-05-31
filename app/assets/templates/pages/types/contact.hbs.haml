@@ -1,0 +1,31 @@
+%fieldset.control-group
+  %label.control-label{:for => :page_thanks_text}= hb_i18n("usercp.pages.manage.js.thanks_text")
+  .controls
+    = text_field_tag(:page_thanks_text, hb("page.thanks_text"), :class => "input-large")
+    %span.help-block= hb_i18n("usercp.pages.manage.js.thanks_desc")
+
+%fieldset.control-group
+  %label.control-label{:for => :page_send_to}
+    %span.red *
+    = hb_i18n("usercp.pages.manage.js.send_to")
+  .controls
+    = email_field_tag(:page_send_to, hb("or page.send_to user.email"))
+    %span.help-block= hb_i18n("usercp.pages.manage.js.send_to_desc")
+
+%fieldset.control-group
+  %p
+    %strong= hb_i18n("usercp.pages.manage.js.fields")
+  %span.help-block.pad= hb_i18n("usercp.pages.manage.js.contact_default")
+
+  %table.table.table-condensed.table-bordered.table-striped#manage_fields
+    %thead
+      %tr
+        %th= hb_i18n("usercp.pages.manage.js.name")
+        %th= hb_i18n("usercp.pages.manage.js.required")
+        %th= hb_i18n("usercp.pages.manage.js.type")
+        %th
+          %a.btn.btn-mini.btn-success.square#add_field{:href => "#", :title => hb_i18n("usercp.pages.manage.js.add_field")}
+            %i.icon-white.icon-plus
+    %tbody
+      = hb "each page.fields" do
+        = hb "> page_field this"

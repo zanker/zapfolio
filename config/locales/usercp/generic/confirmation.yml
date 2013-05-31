@@ -1,0 +1,16 @@
+en:
+  usercp:
+    generic:
+      confirmation:
+        js:
+          delete:
+            title: Delete Confirmation
+            desc: Are you sure you want to delete this? You cannot undo this.
+            loading: Removing
+            button: Delete
+
+          demo:
+            title: Demo Logout
+            desc: If you log out, your demo will immediately end early. Are you sure you want to do this?
+            loading: Logging Out
+            button: Logout

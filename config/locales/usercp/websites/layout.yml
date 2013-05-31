@@ -1,0 +1,22 @@
+en:
+  usercp:
+    websites:
+      layout:
+        js:
+          website: Website
+          layout_configuration: Layout Configuration
+          site_align: Site Alignment
+          site_align_desc: How the website should be aligned.
+          menu_align: Menu Position
+          menu_align_desc: Where the menu should be positioned relative to the site.
+          logo: Logo
+          uploaded_logo: Uploaded Logo
+          view_logo: view logo
+          remove_logo: Remove Logo
+          width: Width
+          width_desc: Maximum width of your portfolio site.
+          logo_desc_1: If the menu is on the left or right side of the website, the logo will be shown above the menu and shouldn't be more than 200x200.
+          logo_desc_2: If the menu is in the center, the logo will be shown above it and can be whatever dimensions you want.
+          edit_css: "{Click here} to switch to the CSS editor."
+          edit_css_save: Just make sure you save your changes below first if you changed anything.
+

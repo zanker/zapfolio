@@ -1,0 +1,20 @@
+%fieldset.control-group
+  %label.control-label{:for => :page_pic_side}= hb_i18n("usercp.pages.manage.js.pic_side")
+  .controls
+    %select{:name => :page_pic_side, :id => :page_pic_side, :class => "input-small"}
+      = hb! "option #{AboutPage::LEFT} \"js.left\" page.pic_side"
+      = hb! "option #{AboutPage::RIGHT} \"js.right\" page.pic_side"
+    %span.help-block= hb_i18n("usercp.pages.manage.js.pic_side_desc")
+
+%fieldset.control-group
+  %label.control-label{:for => :page_picture}= hb_i18n("usercp.pages.manage.js.picture")
+  .controls
+    %input.input-file{:type => :file, :name => :page_picture, :id => :page_picture, "data-nodemo" => "1"}
+    = hb "if page.picture_uid" do
+      %label.checkbox
+        %input{:type => :checkbox, :name => :page_remove_picture, :value => "1", "data-nodemo" => "1"}
+        = hb_i18n("usercp.pages.manage.js.remove_picture")
+        = surround "(", ")" do
+          %a#preview-picture{:href => "#", "data-url" => hb("page.picture_thumb"), "data-title" => hb_i18n("usercp.pages.manage.js.uploaded_picture")}= hb_i18n("usercp.pages.manage.js.view_picture")
+
+    %span.help-block= hb_i18n("usercp.pages.manage.js.picture_desc")

@@ -1,0 +1,121 @@
+#sub-plans
+  .page-header
+    %h2= t(".subscriptions")
+
+  .row
+    .span12
+      %p.sub-desc
+        != t(".sub_desc", :free => content_tag(:strong, t(".days_free", :days => CONFIG[:subscriptions][:starter][:trial_period])))
+
+  .row
+    .span12
+      %table.table.table-striped.table-bordered
+        %thead
+          %tr
+            %th &nbsp;
+            %th
+              .plan= t("js.sub_plans.free")
+
+              .login-with
+                %span= t(".login_with")
+                %a.btn.btn-mini.flickr-free{:href => "/sessions/flickr", :title => t("js.providers.flickr")}
+                  .flickr.size-16
+                %span= t(".or")
+                %a.btn.btn-mini.smugmug-free{:href => "/sessions/smugmug", :title => t("js.providers.smugmug")}
+                  .smugmug.size-16
+
+            %th
+              .plan= t("js.sub_plans.starter")
+              %a.btn.btn-info{:href => "#", "data-target" => "#prep_starter", "data-toggle" => "modal"}
+                = t(".purchase")
+
+            %th.big
+              .plan= t("js.sub_plans.premium")
+              %a.btn.btn-large.btn-success{:href => "#", "data-target" => "#prep_premium", "data-toggle" => "modal"}
+                = t(".purchase")
+
+        %tbody
+          %tr.price
+            %td= t("usercp.billing.subscriptions.js.monthly_price")
+            %td= t("usercp.billing.subscriptions.js.free_excited")
+            %td= content_tag(:b, number_to_currency(CONFIG[:subscriptions][:starter][:monthly]))
+            %td.big= content_tag(:b, number_to_currency(CONFIG[:subscriptions][:premium][:monthly]))
+
+          - [:media, :sync_hrs, :queue, :sync_lim].each do |key|
+            %tr
+              %td.feature.tt{:title => t("usercp.billing.subscriptions.js.features.#{key}.desc")}
+                %span.align= t("usercp.billing.subscriptions.js.features.#{key}.name")
+                %i.icon-question-sign
+              - CONFIG[:sub_plans].each do |plan|
+                %td{:class => plan}
+                  - if CONFIG[:subscriptions][plan][:features][key] == -1
+                    = t("usercp.billing.subscriptions.js.unlimited")
+                  - else
+                    - if key == :queue
+                      - if CONFIG[:subscriptions][plan][:features][key] == :high
+                        %strong!= t("usercp.billing.subscriptions.js.#{CONFIG[:subscriptions][plan][:features][key]}")
+                      - else
+                        != t("usercp.billing.subscriptions.js.#{CONFIG[:subscriptions][plan][:features][key]}")
+
+                    - elsif key == :sync_hrs
+                      != t("usercp.billing.subscriptions.js.sync_hours.#{CONFIG[:subscriptions][plan][:features][key] == 1 ? "one" : "other"}").gsub("{{count}}", content_tag(:strong, number_with_delimiter(CONFIG[:subscriptions][plan][:features][key])))
+                    - elsif key == :sync_lim
+                      != t("usercp.billing.subscriptions.js.sync_limit.#{CONFIG[:subscriptions][plan][:features][:sync_lim] == 1 ? "one" : "other"}").gsub("{{count}}", content_tag(:strong, number_with_delimiter(CONFIG[:subscriptions][plan][:features][key]))).gsub("{{hours}}", content_tag(:strong, CONFIG[:subscriptions][plan][:features][:sync_hrs]))
+                    - else
+                      = number_with_delimiter(CONFIG[:subscriptions][plan][:features][key])
+
+          %tr
+            %td
+              = t("usercp.billing.subscriptions.js.features.customization.name")
+            %td.free.tt{:title => t("usercp.billing.subscriptions.js.features.customization.none_desc")}
+              %span.align= t("usercp.billing.subscriptions.js.features.customization.none")
+              %i.icon-question-sign
+
+            %td.free.tt{:title => t("usercp.billing.subscriptions.js.features.customization.basic_desc")}
+              %span.align= t("usercp.billing.subscriptions.js.features.customization.basic")
+              %i.icon-question-sign
+
+            %td.free.tt{:title => t("usercp.billing.subscriptions.js.features.customization.skinning_desc")}
+              %span.align= t("usercp.billing.subscriptions.js.features.customization.skinning")
+              %i.icon-question-sign
+
+          - [:domain, :branding, :seo, :analytics].each do |key|
+            %tr
+              %td.feature.tt{:title => t("usercp.billing.subscriptions.js.features.#{key}.desc")}
+                %span.align= t("usercp.billing.subscriptions.js.features.#{key}.name")
+                %i.icon-question-sign
+              - CONFIG[:sub_plans].each do |plan|
+                %td{:class => plan}
+                  = CONFIG[:subscriptions][plan][:features][key] ? image_tag("check.png", :size => "18x14") : image_tag("cross.png", :size => "14x14")
+
+.modal.hidden#prep_starter
+  .modal-header
+    %h3= t(".login_auth")
+
+  .modal-body
+    %p!= t(".redirect_purchase", :type => content_tag(:strong, t("js.sub_plans.starter")))
+    %p= t(".take_a_minute")
+
+  .modal-footer
+    %a.btn.pull-left#flickr-starter{:href => "/sessions/flickr?origin=#{billing_subscription_checkout_path(:starter)}"}
+      .flickr.size-19
+      = t(".flickr_login")
+    %a.btn.pull-right#smugmug-starter{:href => "/sessions/smugmug?origin=#{billing_subscription_checkout_path(:starter)}"}
+      .smugmug.size-19
+      = t(".smugmug_login")
+
+.modal.hidden#prep_premium
+  .modal-header
+    %h3= t(".login_auth")
+
+  .modal-body
+    %p!= t(".redirect_purchase", :type => content_tag(:strong, t("js.sub_plans.premium")))
+    %p= t(".take_a_minute")
+
+  .modal-footer
+    %a.btn.pull-left#flickr-premium{:href => "/sessions/flickr?origin=#{billing_subscription_checkout_path(:premium)}"}
+      .flickr.size-19
+      = t(".flickr_login")
+    %a.btn.pull-right#smugmug-premium{:href => "/sessions/smugmug?origin=#{billing_subscription_checkout_path(:premium)}"}
+      .smugmug.size-19
+      = t(".smugmug_login")

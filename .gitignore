@@ -1,0 +1,6 @@
+/.bundle
+/public/assets/
+/public/system/
+/log/*.log
+/spec/fixtures/
+/tmp

@@ -1,0 +1,95 @@
+.page-header
+  %h3
+    = hb_i18n("usercp.billing.subscriptions.js.subscription")
+
+= hb "unless this.user.stripe_id" do
+  .alert.alert-info
+    %strong= hb_i18n("usercp.billing.subscriptions.js.not_sure_upgrade")
+    = hb_i18n("usercp.billing.subscriptions.js.free_trial", :days => CONFIG[:subscriptions][:starter][:trial_period])
+
+.row-fluid
+  .span12
+    %table.table.table-striped.table-bordered#sub-plans
+      %thead
+        %tr
+          %th &nbsp;
+          %th
+            .no-plan= hb_i18n("js.sub_plans.free")
+          %th
+            .no-plan= hb_i18n("js.sub_plans.starter")
+            = hb "has_plan \"starter\"" do
+              %strong.green= hb_i18n("js.active")
+              = hb "else"
+
+              = hb "has_plan \"premium\"" do
+                = link_to(hb_i18n("usercp.billing.subscriptions.js.downgrade"), billing_subscription_checkout_path(:starter), :class => "btn btn-small js-nav")
+                = hb "else"
+                = link_to(hb_i18n("usercp.billing.subscriptions.js.upgrade"), billing_subscription_checkout_path(:starter), :class => "btn btn-small btn-info js-nav")
+
+          %th.big
+            .no-plan= hb_i18n("js.sub_plans.premium")
+            = hb "has_plan \"premium\"" do
+              = hb "unless_sub_status \"canceled\"" do
+                %strong.green= hb_i18n("js.active")
+                = hb "else"
+                %strong.red= hb_i18n("usercp.billing.subscriptions.js.canceled")
+                .restart= link_to(hb_i18n("usercp.billing.subscriptions.js.restart_sub"), billing_path, :class => "btn btn-small js-nav")
+
+
+              = hb "else"
+              = link_to(hb_i18n("usercp.billing.subscriptions.js.upgrade"), billing_subscription_checkout_path(:premium), :class => "btn btn-large btn-success js-nav")
+
+      %tbody
+        %tr.price
+          %td= hb_i18n("usercp.billing.subscriptions.js.monthly_price")
+          %td= hb_i18n("usercp.billing.subscriptions.js.free_excited")
+          %td= content_tag(:b, number_to_currency(CONFIG[:subscriptions][:starter][:monthly]))
+          %td.big= content_tag(:b, number_to_currency(CONFIG[:subscriptions][:premium][:monthly]))
+
+        - [:media, :sync_hrs, :queue, :sync_lim].each do |key|
+          %tr
+            %td.feature{:title => hb_i18n("usercp.billing.subscriptions.js.features.#{key}.desc")}
+              %span.align= hb_i18n("usercp.billing.subscriptions.js.features.#{key}.name")
+              %i.icon-question-sign
+            - CONFIG[:sub_plans].each do |plan|
+              %td{:class => plan}
+                - if CONFIG[:subscriptions][plan][:features][key] == -1
+                  = hb_i18n("usercp.billing.subscriptions.js.unlimited")
+                - else
+                  - if key == :queue
+                    - if CONFIG[:subscriptions][plan][:features][key] == :high
+                      %strong= hb_i18n("usercp.billing.subscriptions.js.#{CONFIG[:subscriptions][plan][:features][key]}")
+                    - else
+
+                      = hb_i18n("usercp.billing.subscriptions.js.#{CONFIG[:subscriptions][plan][:features][key]}")
+
+                  - elsif key == :sync_hrs
+                    = hb_i18n("usercp.billing.subscriptions.js.sync_hours.#{CONFIG[:subscriptions][plan][:features][key] == 1 ? "one" : "other"}", :count => content_tag(:strong, number_with_delimiter(CONFIG[:subscriptions][plan][:features][key])))
+                  - elsif key == :sync_lim
+                    = hb_i18n("usercp.billing.subscriptions.js.sync_limit.#{CONFIG[:subscriptions][plan][:features][:sync_lim] == 1 ? "one" : "other"}", :count => content_tag(:strong, number_with_delimiter(CONFIG[:subscriptions][plan][:features][key])), :hours => CONFIG[:subscriptions][plan][:features][:sync_hrs])
+                  - else
+                    = number_with_delimiter(CONFIG[:subscriptions][plan][:features][key])
+
+        %tr
+          %td
+            = hb_i18n("usercp.billing.subscriptions.js.features.customization.name")
+          %td.free{:title => hb_i18n("usercp.billing.subscriptions.js.features.customization.none_desc")}
+            %span.align= hb_i18n("usercp.billing.subscriptions.js.features.customization.none")
+            %i.icon-question-sign
+
+          %td.free{:title => hb_i18n("usercp.billing.subscriptions.js.features.customization.basic_desc")}
+            %span.align= hb_i18n("usercp.billing.subscriptions.js.features.customization.basic")
+            %i.icon-question-sign
+
+          %td.free{:title => hb_i18n("usercp.billing.subscriptions.js.features.customization.skinning_desc")}
+            %span.align= hb_i18n("usercp.billing.subscriptions.js.features.customization.skinning")
+            %i.icon-question-sign
+
+        - [:domain, :branding, :seo, :analytics].each do |key|
+          %tr
+            %td.feature{:title => hb_i18n("usercp.billing.subscriptions.js.features.#{key}.desc")}
+              %span.align= hb_i18n("usercp.billing.subscriptions.js.features.#{key}.name")
+              %i.icon-question-sign
+            - CONFIG[:sub_plans].each do |plan|
+              %td{:class => plan}
+                = CONFIG[:subscriptions][plan][:features][key] ? image_tag("check.png", :size => "18x14") : image_tag("cross.png", :size => "14x14")

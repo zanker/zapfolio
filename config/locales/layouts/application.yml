@@ -1,0 +1,19 @@
+en:
+  layouts:
+    application:
+      account: Account
+      logout: Logout
+      contact: Contact
+      manage_website: Manage Website
+      settings: Settings
+      billing: Billing
+      sync_status: Sync Status
+      subscription_plans: Subscription Plans
+      home: Home
+      pricing: Pricing
+      login_with: Login with
+      news: News
+      twitter: Twitter
+      contact_us: Contact Us
+      terms: Terms
+      privacy_policy: Privacy Policy

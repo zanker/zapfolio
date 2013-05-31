@@ -1,0 +1,77 @@
+Zapfolio.Views.Dashboard.Setup = Backbone.View.extend({
+  page_id: "dashboard/setup",
+
+  initialize: function(data) {
+    this.user = data.user;
+    this.website = data.website;
+    this.saved_models = {};
+
+    this.mp_base = "Setup";
+    this.mp_track();
+
+    $(document).on("click.setup", "a.js-nav, a.go-back", function(event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+
+      $(".alert").remove();
+      $("#setup-header").html(Handlebars.partials["flash"]({type: "alert", msg: I18n.t("usercp.dashboard.setup.js.cant_do_that", {email: "<a href='mailto:<%= CONFIG[:contact][:email] %>'><%= CONFIG[:contact][:email] %></a>"})}));
+    });
+  },
+
+  events: {
+    "submit": "save"
+  },
+
+  render: function() {
+    this.$el.html(HandlebarsTemplates["dashboard/setup"]({user: this.user}));
+    return this;
+  },
+
+  save: function(event) {
+    event.preventDefault();
+    this.$el.find("input[type='submit']").button("loading");
+    this.cleanup_errors();
+
+    var scope = this;
+    if( $("#user_email").length > 0 && !this.saved_models.user ) {
+      this.user.save({email: $("#user_email").val()}, {error: function(model, res) { scope.handle_errors(res); }, success: function() { scope.saved_user(); scope.save_website(); }});
+    } else {
+      this.saved_models.user = true
+      this.save_website();
+    }
+
+    return false;
+  },
+
+  saved: function() {
+    if( !this.saved_models.user || !this.saved_models.website ) return;
+
+    this.mp_track("Finished");
+    $(document).off("click.setup");
+
+    window.location.href = "/admin/websites";
+  },
+
+  save_website: function() {
+    if( !this.saved_models.website ) {
+      var scope = this;
+      var website = new Zapfolio.Models.Website({subdomain: $("#website_subdomain").val()});
+      website.save({subdomain: $("#website_subdomain").val()}, {error: function(model, res) { scope.handle_errors(res); }, success: function() { scope.saved_website(); }});
+    }
+  },
+
+  saved_website: function() {
+    this.mp_track("Website Saved");
+
+    this.saved_models.website = true;
+    this.saved();
+  },
+  saved_user: function() {
+    this.mp_track("User Saved");
+
+    this.saved_models.user = true;
+    this.saved();
+  }
+});
+
+_.extend(Zapfolio.Views.Dashboard.Setup.prototype, Zapfolio.Helpers.Errors, Zapfolio.Helpers.Mixpanel);

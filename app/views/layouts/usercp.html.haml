@@ -1,0 +1,94 @@
+!!!
+%html{:lang => "en"}
+  %head
+    %meta{:charset => "utf-8"}
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+    %meta{"http-equiv" => "X-UA-Compatible", :content => "chrome=1"}
+    %title#site_title #{t("usercp.titles.js.generic")} #{t("usercp.titles.js.suffix")}
+    = csrf_meta_tags
+    = stylesheet_link_tag("usercp", :media => "all")
+    = javascript_include_tag("usercp")
+
+    :javascript
+      (function(c,a){window.mixpanel=a;var b,d,h,e; a._i=[];a.init=function(b,c,f){function d(a,b){var c=b.split(".");2==c.length&&(a=a[c[0]],b=c[1]);a[b]=function(){a.push([b].concat(Array.prototype.slice.call(arguments,0)))}}var g=a;"undefined"!==typeof f?g=a[f]=[]:f="mixpanel";g.people=g.people||[];h=['disable','track','track_pageview','track_links','track_forms','register','register_once','unregister','identify','name_tag','set_config','people.identify','people.set','people.increment'];for(e=0;e<h.length;e++)d(g,h[e]); a._i.push([b,c,f])};a.__SV=1.1;})(document,window.mixpanel||[]);
+      mixpanel.init("40dec742175c93b82fec54baca0fab28");
+    - if Rails.env.production?
+      = javascript_include_tag("//cdn.mxpnl.com/libs/mixpanel-2.1.min.js", :async => true, :defer => true)
+
+%body
+  .wrapper
+    .navbar
+      .navbar-inner
+        .container
+          %a.brand.js-nav{:href => websites_path}
+            Zapfolio
+
+          %ul.nav.pull-left
+            %li= mail_to(CONFIG[:contact][:email], t(".support"), :class => :contact_email, "data-location" => "header")
+            - if @website
+              %li= link_to(t(".view_site"), @website.full_url, :id => "view-site")
+
+
+          %ul.nav.pull-right
+            %li= link_to(t(".manage_site"), websites_path, :class => "js-nav")
+            %li= link_to(t(".configure_site"), websites_edit_path, :class => "js-nav")
+            %li= link_to(t(".configure_layout"), websites_layout_path, :class => "js-nav")
+
+            %li.dropdown
+              %a.dropdown-toggle{"data-toggle" => :dropdown, :href => "#"}
+                = t(".account")
+                %b.caret
+              %ul.dropdown-menu
+                %li= link_to(t(".settings"), edit_users_path, :class => "js-nav")
+                %li= link_to(t(".sync_status"), user_sync_path, :class => "js-nav")
+                - if current_user.demo_expires?
+                  %li= link_to(t(".subscription_plans"), subscription_path)
+                - else
+                  %li= link_to(t(".subscription_plans"), billing_subscription_path, :class => "js-nav")
+                  %li= link_to(t(".billing"), billing_path, :class => "js-nav")
+                %li.divider
+                %li= link_to(t(".logout"), session_logout_path, :id => :logout)
+
+    .container
+      %noscript
+        .alert.alert-error
+          %strong!= t(".noscript", :email => mail_to(CONFIG[:contact][:email]))
+
+      #content
+        - if flash[:alert]
+          .alert.alert-error
+            .close{"data-dismiss" => :alert} x
+            %strong= flash[:alert]
+        - elsif flash[:notice]
+          .alert.alert-info
+            .close{"data-dismiss" => :alert} x
+            %strong= flash[:notice]
+        - elsif flash[:success]
+          .alert.alert-success
+            .close{"data-dismiss" => :alert} x
+            %strong= flash[:success]
+
+        = yield
+
+    .push
+
+  %footer.container
+    %p.pull-left &copy; 2012 Zapfolio
+    %ul.pull-right.unstyled
+      %li= link_to(t(".news"), blog_path)
+      %li
+        %span &middot;
+      %li= link_to(t(".twitter"), "https://twitter.com/#!/zapfolio")
+      %li
+        %span &middot;
+      %li= mail_to(CONFIG[:contact][:email], t(".contact_us"), :class => :contact_email, "data-location" => "footer")
+      %li
+        %span &middot;
+      %li= link_to(t(".terms"), terms_conditions_path)
+      %li
+        %span &middot;
+      %li= link_to(t(".privacy_policy"), privacy_policy_path)
+
+  :javascript
+    Zapfolio.initialize("#{analytics_id}", "#{params[:controller].gsub("usercp/", "").capitalize}", "#{params[:action]}", #{current_user.to_json}, #{(@kicker || {}).to_json});
+    #{yield :javascript}

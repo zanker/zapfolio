@@ -1,0 +1,9 @@
+sync_albums:
+  every: 10m
+  class: "Scheduler::SyncAlbums"
+  description: "Triggers album syncs for all users who need it."
+
+prune_demo:
+  every: 1h
+  class: "Scheduler::PruneDemo"
+  description: "Prunes any demo accounts that have expired."

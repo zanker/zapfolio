@@ -1,0 +1,60 @@
+%p.lead
+  != t(".pick_login_method", :flickr => content_tag(:span, "", :class => "flickr size-24"), :smugmug => content_tag(:span, "", :class => "smugmug size-24"))
+
+.row
+  .span12
+    - if @current_user and @current_user.demo_expires?
+      .alert.alert-notice
+        %strong!= t(".upgrade_any_time")
+    - elsif cookies[:isdemo] == "1"
+      .alert.alert-error
+        %strong!= t(".already_demoed", :email => mail_to(CONFIG[:contact][:email]))
+
+.row#login
+  .span12
+    .tabbable
+      %ul.nav.nav-tabs
+        - active_provider = cookies.signed[:provider] || "flickr"
+        - CONFIG[:providers].each do |provider|
+          %li{:class => "#{provider}#{active_provider == provider ? " active" : ""}"}
+            %a{:href => "##{provider}"}
+              .size-19{:class => provider}
+              = t("js.providers.#{provider}")
+
+      .well.well-small.tab-content
+        .tab-pane#flickr{:class => active_provider == "flickr" ? "active" : nil}
+          %p.emph
+            %strong!= t(".process_flickr_1", :flickr => content_tag(:span, "", :class => "flickr size-16"))
+          .thumbnail
+            .login-flickr-auth
+
+          %p.emph
+            %strong= t(".process_flickr_2")
+
+          %a.btn.btn-large.btn-primary#login-flickr{:href => (!params[:origin].blank? and params[:origin].to_s !~ /\./) ? "/sessions/flickr?origin=#{params[:origin]}" : "/sessions/flickr"}
+            .flickr.size-24
+            = t(".login_with", :provider => t("js.providers.flickr"))
+
+        .tab-pane#smugmug
+          %p.emph
+            %strong!= t(".process_smugmug_1", :smugmug => content_tag(:span, "", :class => "smugmug size-16"))
+
+          %p.emph
+            %strong!= t(".process_smugmug_2", :smugmug => content_tag(:span, "", :class => "smugmug size-16"))
+
+          - if cookies.signed[:provider]
+            .thumbnail
+              .login-smugmug-ret-redirect
+
+            %p.emph
+              %strong= t(".process_smugmug_ret_3")
+          - else
+            .thumbnail
+              .login-smugmug-auth-redirect
+
+            %p.emph
+              %strong= t(".process_smugmug_new_3")
+
+          %a.btn.btn-large.btn-primary#login-smugmug{:href => (!params[:origin].blank? and params[:origin].to_s !~ /\./) ? "/sessions/smugmug?origin=#{params[:origin]}" : "/sessions/smugmug"}
+            .smugmug.size-24
+            = t(".login_with", :provider => t("js.providers.smugmug"))

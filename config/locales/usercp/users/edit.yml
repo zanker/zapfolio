@@ -1,0 +1,12 @@
+en:
+  usercp:
+    users:
+      edit:
+        js:
+          settings: Settings
+          settings_updated: Settings updated!
+          email: Email
+          email_desc: Your email address for any status emails. We won't spam you, promise.
+          full_name: Full Name
+          receive_emails: Receive Email Updates?
+          receive_emails_desc: Will email you updates and news about Zapfolio. If you disable this, you will still receive transactional emails.

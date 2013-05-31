@@ -1,0 +1,13 @@
+en:
+  usercp:
+    billing:
+      purchased:
+        js:
+          receipt: Receipt
+          billing_page: billing page
+          receipt_upgrade: Your subscription has been upgraded to {{plan}}!
+          receipt_downgrade: Your subscription has been downgraded to {{plan}}.
+          receipt_trial: We won't be billing you until {{trial_end}}, you get the next {{trial_days}} completely free! After that, you will be charged {{amount}} per month on your {{type}} ending in {{last4}}.
+          receipt_active: Your subscription is now active! The next billing period will be {{period_days}} for {{amount}} on your {{type}} ending in {{last4}}.
+          cancel_sub: If you have any questions or comments, don't hesitate to contact us at {{email}}. You can cancel the subscription at any time on the {{billing_page}}.
+          finished: Finished

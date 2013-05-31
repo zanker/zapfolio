@@ -1,0 +1,76 @@
+@import "compass/utilities/sprites/base"
+
+@mixin retina-supported
+  @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2)
+    @content
+
+// Glyph icons
+@import "icons/*.png"
+$icons-sprite-dimensions: true
+@include all-icons-sprites
+
+// Flickr/SmugMug/etc logos
+$site_icons: sprite-map("logos/*.png")
+
+.flickr, .smugmug
+  display: inline-block
+  vertical-align: middle
+
+  &.bottom
+    vertical-align: bottom
+
+  &.size-16
+    height: 16px
+    width: 16px
+
+  &.size-19
+    height: 19px
+    width: 19px
+
+  &.size-24
+    height: 24px
+    width: 24px
+
+  &.size-32
+    height: 32px
+    width: 32px
+
+  &.size-48
+    height: 48px
+    width: 48px
+
+p
+  .flickr, .smugmug
+    vertical-align: top
+
+.flickr
+  &.size-16
+    background: sprite($site_icons, "flickr-16x16") no-repeat
+
+  &.size-19
+    background: sprite($site_icons, "flickr-19x19") no-repeat
+
+  &.size-24
+    background: sprite($site_icons, "flickr-24x24") no-repeat
+
+  &.size-32
+    background: sprite($site_icons, "flickr-32x32") no-repeat
+
+  &.size-48
+    background: sprite($site_icons, "flickr-48x48") no-repeat
+
+.smugmug
+  &.size-16
+    background: sprite($site_icons, "smugmug-16x16") no-repeat
+
+  &.size-19
+    background: sprite($site_icons, "smugmug-19x19") no-repeat
+
+  &.size-24
+    background: sprite($site_icons, "smugmug-24x24") no-repeat
+
+  &.size-32
+    background: sprite($site_icons, "smugmug-32x32") no-repeat
+
+  &.size-48
+    background: sprite($site_icons, "smugmug-48x48") no-repeat

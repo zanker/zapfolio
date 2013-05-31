@@ -1,0 +1,37 @@
+en:
+  usercp:
+    pages:
+      type:
+        js:
+          select_page_type: Select Page Type
+          page_desc: Select the type of page you want to create. This cannot be changed once the page is created.
+          pick: Pick
+          name: Name
+          info: Info
+          sub_needed: Sub Needed
+          upgrade_needed: To access the pages marked "Sub Needed", you have to upgrade your subscription plan.
+          click_here: Click here
+          to_upgrade: to upgrade now.
+
+          pages:
+            static:
+              name: Static
+              desc: Simple page that you can create with HTML.
+            about:
+              name: About
+              desc: Quick "About Me" page template with an optional picture.
+            contact:
+              name: Contact
+              desc: Quick "Contact Me" form.
+            redirect:
+              name: Redirect
+              desc: Redirect to another URL that resides somewhere else.
+            mediagrid:
+              name: Media Grid
+              desc: Show your media in a customizable X by Y grid.
+            mediacarousel:
+              name: Media Carousel
+              desc: Show your media through a picture carousel with thumbnails.
+            mediarow:
+              name: Media Row
+              desc: Show your media in a long row growing right, left or down.

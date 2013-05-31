@@ -1,0 +1,78 @@
+.bordered {
+  border: 1px solid @tableBorder;
+  .border-radius(2px);
+}
+
+form {
+  margin-bottom: 0;
+
+  .control-label {
+    text-align: left !important;
+  }
+
+  &.xlarge, .control-group.xlarge {
+    .controls {
+      margin-left: 160px;
+    }
+
+    .control-label {
+      width: 160px;
+    }
+  }
+
+  &.large, .control-group.large {
+    .controls {
+      margin-left: 120px;
+    }
+
+    .control-label {
+      width: 120px;
+    }
+  }
+
+  &.medium, .control-group.medium {
+    .controls {
+      margin-left: 100px;
+    }
+
+    .control-label {
+      width: 100px;
+    }
+  }
+
+  &.small, .control-group.small {
+    .controls {
+      margin-left: 80px;
+    }
+
+    .control-label {
+      width: 80px;
+    }
+  }
+
+  #error-list {
+    display: none;
+    color: lighten(@errorText, 30%);
+  }
+}
+
+span.align {
+  vertical-align: middle;
+}
+
+i.top {
+  vertical-align: top;
+}
+
+.input-dynamic {
+  height: auto;
+  width: auto;
+}
+
+.clearb {
+  clear: both;
+}
+
+.divider {
+  color: @grayLight;
+}

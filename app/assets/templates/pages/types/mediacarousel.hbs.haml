@@ -1,0 +1,48 @@
+%fieldset.control-group.large
+  %label.control-label{:for => :page_max_size}= hb_i18n("usercp.pages.manage.js.max_size_height")
+  .controls
+    = number_field_tag(:page_max_size, hb("or page.max_size 0"), :min => 0, :step => 5, :class => "input-mini")
+    %span.help-block= hb_i18n("usercp.pages.manage.js.max_size_height_desc")
+
+%fieldset.control-group.large
+  %label.control-label{:for => :page_max_media}= hb_i18n("usercp.pages.manage.js.max_media")
+  .controls
+    = number_field_tag(:page_max_media, hb("or page.max_media 0"), :min => 0, :class => "input-mini")
+    %span.help-block= hb_i18n("usercp.pages.manage.js.max_media_desc")
+
+%fieldset.control-group.large
+  %label.control-label{:for => :page_per_page}= hb_i18n("usercp.pages.manage.js.per_thumbnails")
+  .controls
+    = number_field_tag(:page_per_page, hb("or page.per_page 5"), :min => 0, :class => "input-mini")
+    %span.help-block= hb_i18n("usercp.pages.manage.js.per_thumbnails_desc")
+
+%fieldset.control-group.large
+  %label.control-label{:for => :page_timer}= hb_i18n("usercp.pages.manage.js.timer")
+  .controls
+    = number_field_tag(:page_timer, hb("or page.timer 8"), :min => 0, :class => "input-mini")
+    %span.help-block= hb_i18n("usercp.pages.manage.js.timer_desc")
+
+%fieldset.control-group.large
+  %label.control-label{:for => :page_sort_by}= hb_i18n("usercp.pages.manage.js.sort_by")
+  .controls
+    %select.input-small{:name => "page_sort_by_key"}
+      - Media::SORTABLE.each_key do |key|
+        = hb! "option \"#{key}\" \"usercp.pages.manage.js.sort.#{key}\" page.sort_by 0 0"
+
+    %select.input-mini{:name => "page_sort_by_mode"}
+      - ["asc", "desc"].each do |key|
+        = hb! "option \"#{key}\" \"usercp.pages.manage.js.#{key}\" page.sort_by 0 1"
+
+    %span.help-block= hb_i18n("usercp.pages.manage.js.sort_by_desc")
+
+%fieldset.control-group.large
+  %label.control-label{:for => :page_randomize}= hb_i18n("usercp.pages.manage.js.randomize")
+  .controls
+    %select.input-mini{:name => :page_randomize, :id => :page_randomize}
+      = hb! "option \"0\" \"js.no\" page.randomize"
+      = hb! "option \"1\" \"js.yes\" page.randomize"
+
+    %span.help-block= hb_i18n("usercp.pages.manage.js.randomize_desc")
+
+
+= hb "> album_select"

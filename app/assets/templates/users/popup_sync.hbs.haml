@@ -1,0 +1,16 @@
+.modal.popup_sync
+  .modal-header
+    %h3= hb_i18n("usercp.users.popup_sync.js.loading_media")
+
+  .modal-body
+    %p= hb_i18n("usercp.users.popup_sync.js.not_ready_1")
+    %p= hb_i18n("usercp.users.popup_sync.js.not_ready_2")
+
+    .progress.progress-striped.active
+      .bar
+
+    %strong.status_text
+      = hb_i18n("usercp.users.popup_sync.js.loading_status")
+
+  .modal-footer
+    %input.btn.pull-left{:type => :button, :value => hb_i18n("js.dismiss"), "data-dismiss" => :modal}

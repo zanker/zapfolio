@@ -1,0 +1,24 @@
+en:
+  layouts:
+    usercp:
+      support: Support
+      logout: Logout
+      blogging: Blogging
+      new_post: New Post
+      manage_posts: Manage Posts
+      account: Account
+      settings: Settings
+      billing: Billing
+      sync_status: Sync Status
+      website: Website
+      manage_site: Manage Site
+      configure_site: Configure Site
+      configure_layout: Configure Layout
+      subscription_plans: Subscription Plans
+      noscript: Please enable Javascript to properly use the control panel. If you have any questions, you can contact us at %{email}.
+      view_site: View Site
+      news: News
+      twitter: Twitter
+      contact_us: Contact Us
+      terms: Terms
+      privacy_policy: Privacy Policy

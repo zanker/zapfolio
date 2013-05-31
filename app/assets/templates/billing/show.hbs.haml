@@ -1,0 +1,100 @@
+.page-header
+  %h3
+    = hb_i18n("usercp.billing.show.js.subscription")
+
+= hb "scoped_if user \"has_subscription\"" do
+  .row-fluid
+    .span12
+      .well.well-small
+        = hb! "billing_sub_status"
+
+  = hb "unless_sub_status \"canceled\"" do
+    .row-fluid
+      .span12
+        .well.well-small
+          %p= hb_i18n("usercp.billing.show.js.cancel_sub")
+          %p= hb_i18n("usercp.billing.show.js.cancel_contact", :email => "<a href='#{CONFIG[:contact][:email]}'>#{CONFIG[:contact][:email]}</a>")
+          %input.btn#cancel_sub{:type => :button, :value => hb_i18n("usercp.billing.show.js.cancel_subscription"), "data-loading-text" => hb_i18n("usercp.billing.show.js.canceling")}
+
+    = hb "else"
+    .row-fluid
+      .span12
+        .well.well-small
+          %p
+            %strong= hb_i18n("usercp.billing.show.js.sub_canceled_changed")
+          %input.btn.btn-success#restart-sub{:type => :button, :value => hb_i18n("usercp.billing.show.js.restart_sub"), "data-loading-text" => hb_i18n("usercp.billing.show.js.restarting")}
+
+  = hb "else"
+  .row-fluid
+    .span12
+      .well.well-small
+        %p.last
+          %strong= hb! "linkify \"usercp.billing.show.js.no_subscription\" \"#{billing_subscription_path}\""
+
+%form.form-horizontal{:method => :POST, :action => "/"}
+  .row-fluid
+    .span12
+      .page-header.multi
+        %h3
+          = hb "if user.has_credit_card" do
+            = hb_i18n("usercp.billing.show.js.change_credit_card")
+            = hb "else"
+            = hb_i18n("usercp.billing.show.js.add_credit_card")
+
+  = hb "if user.has_credit_card" do
+    .row-fluid
+      .span12
+        .well.well-small
+          %p.last
+            = hb! "user_credit_card_file"
+
+  .row-fluid
+    .span12
+      #error-list
+
+  .row-fluid
+    .span12
+      .well.well-small
+        %fieldset.control-group
+          %label.control-label{:for => :billing_number}
+            %span.red *
+            = hb_i18n("usercp.billing.show.js.card_number")
+          .controls
+            %input.input-medium#billing_number{:type => :text}
+            %span.help-inline= image_tag("creditcards.png")
+
+
+        %fieldset.control-group
+          %label.control-label{:for => :billing_cvc}
+            %span.red *
+            = hb_i18n("usercp.billing.show.js.cvv")
+          .controls
+            %input.input-mini#billing_cvc{:type => :text}
+            %span.help-inline= hb_i18n("usercp.billing.show.js.cvv_desc")
+
+        %fieldset.control-group
+          %label.control-label{:for => :billing_exp_month}
+            %span.red *
+            = hb_i18n("usercp.billing.show.js.expiration")
+          .controls
+            %select.input-small#billing_exp_month
+              - current_month = Date.today.month
+              - 1.upto(12).each do |month|
+                %option{:value => month, :selected => current_month == month ? "selected" : nil}= "%02d (%s)" % [month, I18n.t("date.abbr_month_names")[month]]
+            %select.input-mini#billing_exp_year
+              - current_year = Date.today.year
+              - current_year.upto(current_year + 4) do |year|
+                %option{:value => year, :selected => current_year == year ? "selected" : nil}= year
+
+            %span.help-inline= hb_i18n("usercp.billing.show.js.expiration_desc")
+
+  .row-fluid
+    .span12
+      .well.well-small
+        %a.btn.pull-left.go-back{:href => websites_path}= hb_i18n("js.cancel")
+        = hb "if user.has_credit_card" do
+          %input.btn.btn-success.pull-right{:type => :submit, :value => hb_i18n("usercp.billing.show.js.update"), "data-loading-text" => hb_i18n("usercp.billing.show.js.updating")}
+          = hb "else"
+          %input.btn.btn-success.pull-right{:type => :submit, :value => hb_i18n("usercp.billing.show.js.add"), "data-loading-text" => hb_i18n("usercp.billing.show.js.add")}
+
+        .clearb

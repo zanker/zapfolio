@@ -1,0 +1,7 @@
+en:
+  home:
+    not_setup:
+      not_finished: Portfolio site not ready
+      setup_to_do: The portfolio site on %{url} still needs to be configured with a page before it's usable.
+      setup_direct: You can {add a new page} in a minute to your site, or {click here} for general site configuration.
+      contact_support: If you have any further questions or comments, please contact us at %{email}.

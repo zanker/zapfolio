@@ -1,0 +1,33 @@
+:plain
+  <?xml version="1.0" encoding="UTF-8"?>
+%urlset{:xmlns => "http://www.sitemaps.org/schemas/sitemap/0.9"}
+  %url
+    %loc= subscription_url
+    %priority 0.5
+  %url
+    %loc= new_session_url
+    %priority 0.5
+  %url
+    %loc= blog_url
+    %priority 0.7
+    - last_post = BlogPost.sort([["updated_at", "desc"]]).only(:updated_at).first
+    - if last_post
+      %lastmod= last_post.updated_at.strftime("%Y-%m-%dT%H:%M:%S+00:00")
+
+  - tags = {}
+  - BlogPost.only(:slug, :tags, :updated_at).each do |post|
+    %url
+      %loc= blog_post_url(post.slug)
+      %priority 0.9
+      %lastmod= post.updated_at.strftime("%Y-%m-%dT%H:%M:%S+00:00")
+
+    - post.tags.each_key do |tag|
+      - if !tags[tag] or tags[tag] < post.updated_at
+        - tags[tag] = post.updated_at
+
+
+  - tags.each do |tag, updated_at|
+    %url
+      %loc= blog_url(tag)
+      %priority 0.8
+      %lastmod= updated_at.strftime("%Y-%m-%dT%H:%M:%S+00:00")

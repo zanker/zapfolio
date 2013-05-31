@@ -1,0 +1,85 @@
+en:
+  usercp:
+    pages:
+      manage:
+        js:
+          editing_page: Editing a {{value}} Page
+          new_page: New {{value}} Page
+          page: Page
+          title: Page Title
+          title_desc: Page title shown inline and in the HTML title.
+          home_page: Home Page?
+          home_desc: Show at the root of your portfolio site.
+          name: Internal Name
+          name_desc: Only used internally to identify the page.
+          slug: Page Path
+          slug_desc: The path people can access a page by, eg the path "contact-us" is accessed at {{website}/contact-us.
+          status: Status
+          status_desc: Public pages can be accessed by anyone. Private pages cannot be seen by anyone.
+          password: Password
+          password_desc: If a password is set, people cannot access the page without it.
+          confirm_password: Confirm Password
+          website: Website
+          body_desc: Custom page content, almost all HTML allowed.
+          pic_side: Picture Side
+          pic_side_desc: If a picture is uploaded, which side should it be shown on.
+          picture: Picture
+          picture_desc: An optional picture that is shown inline with the page.
+          remove_picture: Remove Picture
+          view_picture: view picture
+          uploaded_picture: Uploaded Picture
+          location: Redirect To
+          location_desc: The full URL to redirect to when this page is visited.
+          thanks_text: Thanks Text
+          thanks_desc: Text shown to an user after they submit the contact form.
+          send_to: Email To
+          send_to_desc: What email to send the form to, does not have to be your account email.
+          fields: "Custom fields for the user to fill out:"
+          type: Type
+          required: Required?
+          add_field: Add field
+          remove_field: Remove field
+          text_area: Text Area
+          text_field: Text Field
+          max_size_width: Max Media Width
+          max_size_width_desc: Media will not be wider than the value set, 0 will use the widest available media.
+          max_size_height: Max Media Height
+          max_size_height_desc: Media will not be taller than the value set, 0 will use the tallest available media.
+          max_media: Max Media Shown
+          max_media_desc: Caps the maximum amount of media available, 0 will show everything.
+          per_page: Per Page
+          per_page_desc: How much media is shown per page.
+          per_thumbnails: Thumbnails Shown
+          per_thumbnails_desc: How many thumbnails to show per page in the carousel.
+          sort_by: Sort by
+          sort_by_desc: What order media should be displayed in.
+          asc: Asc
+          desc: Desc
+          public_albums: "Public Albums,"
+          public_albums_desc: contain no private media inside.
+          mixed_albums: "Mixed Albums,"
+          mixed_albums_desc: contain both public and private media inside.
+          private_albums: "Private albums,"
+          private_albums_desc: only have private media inside.
+          albums: Pick which albums are shown on this page
+          albums_private_desc: Private media will ONLY be shown if the page is password protected.
+          per_grid_desc: How much media to show per page. Per row is automatically calculated based on page width.
+          grow_in: Grow
+          grow_in_desc: Row placement, whether it should be vertically or horizontally on the page.
+          vertical: Vertical
+          horizontal: Horizontal
+          upgrade_needed: ", to edit this page again, you will need to {upgrade your subscription}. After that, users will be able to see the page again and you edit it."
+          page_updated: Updated page {{name}}!
+          page_created: Created page {{name}}!
+          albums_empty: No albums found. If data is being loaded, please wait for it to finish.
+          timer: Change Interval
+          timer_desc: How many seconds to wait before progressing to the next image.
+          contact_default: We already ask them to enter their email address by default.
+          randomize: Randomize
+          randomize_desc: Overrides the above sort option and randomizes the order of media on page load.
+
+          sort:
+            title: Title
+            prov_created: Created
+            prov_updated: Updated
+

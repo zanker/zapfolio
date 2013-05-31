@@ -1,0 +1,18 @@
+.blog-post
+  .page-header
+    %h2= @post.title
+
+  .well.well-small
+    .row-fluid
+      .span12
+        != @post.body
+
+  .row-fluid
+    .span8
+      %strong= t(".tags")
+      != @post.tags.map {|slug, name| link_to(name, blog_path(slug))}.join(", ")
+
+    .span4
+      .pull-right
+        = distance_of_time_in_words_to_now(@post.created_at)
+        = t(".ago")

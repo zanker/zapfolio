@@ -1,0 +1,38 @@
+Zapfolio = {Models: {}, Collections: {}, Views: {}, Routers: {}, Helpers: {}, Data: {}, Supports: {}};
+Zapfolio.Subscriptions = <%= CONFIG[:subscriptions].to_json %>;
+Zapfolio.initialize = function(analytics_id, controller, action, user, kicker) {
+  this.menu_scope = $(".wrapper .navbar .container ul.nav");
+  this.Supports.pushState = window.history && typeof(window.history.pushState) == "function";
+
+  // This ensures that if they click a link without pushState enabled, we will redirect them to it
+  // Hackish, but non-pushState use isn't optimal
+  if( !this.Supports.pushState && window.location.hash == "" && window.location.pathname != "/admin/websites" ) {
+    window.location.href = "/admin/websites#" + window.location.pathname.replace("/admin/", "");
+  }
+
+  user = new this.Models.User(user);
+  kicker.website = new this.Models.Website(kicker.website || {});
+  kicker.pages = new this.Collections.Page(kicker.pages || []);
+  kicker.albums = new this.Collections.Album(kicker.albums || []);
+
+  for( var key in this.Routers ) {
+    new this.Routers[key](user, kicker);
+  }
+
+  // Add mixpanel before we start history so we can monitor routing
+  this.mixpanel(analytics_id, user, kicker);
+  // See about adding the demo info
+  this.demo_accounts(user);
+  // Ajax tracker to warn if they try and leave a page
+  this.ajax_warner();
+
+  Backbone.history.start({pushState: this.Supports.pushState, root: "/admin/"});
+
+  $(document).on("click", "a.js-nav, a.go-back", function(event) {
+    event.preventDefault();
+
+    var target = $(event.currentTarget);
+    if( target.hasClass("disabled") ) return;
+    Zapfolio.Helpers.Navigate(target);
+  });
+};

@@ -1,0 +1,72 @@
+en:
+  usercp:
+    billing:
+      subscriptions:
+        js:
+          monthly_price: Monthly Price
+          free_excited: Free!
+          unlimited: Unlimited
+          none: None
+          hours: Hours
+          not_sure_upgrade: Not quite sure you want to upgrade?
+          free_trial: You get {{days}} days free! You can cancel at any time with a click of a button.
+          subscription: Subscription
+          downgrade: Downgrade
+          upgrade: Upgrade
+          hey_excited: Hey!
+          high: High
+          medium: Medium
+          low: Low
+          canceled: Canceled
+          restart_sub: Restart Subscription
+
+          sync_hours:
+            one: Every hour
+            other: Every {{count}} hours
+
+          sync_limit:
+            one: "once every {{hours}} hours"
+            other: "{{count}} times every {{hours}} hours"
+
+          features:
+            customization:
+              name: CSS Customization
+              none: Layouts
+              none_desc: You can pick from a light or dark layout.
+              basic: Restyling
+              basic_desc: Restyle an existing layout with our easy to use editor.
+              skinning: Full customization
+              skinning_desc: Personalize your portfolio site with full CSS customization.
+
+            media:
+              name: Max Media Shown
+              desc: If you have more media than this, only the most recent of them will be shown on your portfolio.
+
+            queue:
+              name: Resync priority
+              desc: How we prioritize updating your media from Flickr or SmugMug.
+
+            domain:
+              name: Custom Domain
+              desc: Use a custom domain name rather than our "<yoursite>.zapfol.io" branded one.
+
+            branding:
+              name: Remove Zapfolio Branding
+              desc: Removes the "Powered by Zapfolio" line at the bottom of your portfolio site.
+
+            seo:
+              name: Search Engine Optimization
+              desc: Configurable meta descriptions and meta keywords and automatic sitemap generation.
+
+            analytics:
+              name: Analytics
+              desc: Adds Google Analytics to your portfolio to view visiter stats.
+
+            sync_hrs:
+              name: Automatic Media Resyncs
+              desc: How often Zapfolio will check for new media.
+
+            sync_lim:
+              name: Manual Media Syncs
+              desc: How many times you can request a manual reync of media per interval.
+

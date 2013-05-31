@@ -1,0 +1,6 @@
+en:
+  usercp:
+    users:
+      unsubscribe:
+        no_auth: Sorry, we couldn't authenticate you to unsubscribe. Please do it manually.
+        done: Your subscription settings have been updated. If you change your mind, you can always resubscribe later on the settings page.

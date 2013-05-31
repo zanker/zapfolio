@@ -1,0 +1,148 @@
+---
+base: &base
+  domain: localhost:5000
+  rewrite_ip: <IP>
+  portfolio_domain: zapfol.development:5001
+  full_domain: "http://localhost:5000"
+  demo_length: 259200
+
+  contact:
+    email: support@zapfol.io
+    twitter: zapfolio
+
+  stripe:
+    secret_key: <SECRET>
+    publishable_key: <PUBLISHABLE
+    webhook_key: abc1234
+
+  sendgrid:
+    username: <EMAIL>
+    password: <PASSWORD>
+
+  oauth:
+    flickr:
+      key: <KEY>
+      secret: <SECRET>
+
+    smugmug:
+      key: <KEY>
+      secret: <SECRET>
+
+  providers:
+    - flickr
+    - smugmug
+
+  layouts:
+    - light
+    - dark
+
+  # False indicates we skip it, true means will show the font in it
+  layout_composites:
+    background: true
+    text_color: text_font
+    text_font: false
+    title_color: title_font
+    title_font: false
+    menu_text_color: menu_text_font
+    menu_text_font: false
+
+  layout_vars:
+    - background
+    - text_color
+    - text_font
+    - title_color
+    - title_font
+    - menu_text_color
+    - menu_text_font
+    - menu_text_hover_color
+    - menu_bg_active
+    - menu_bg_hover
+    - menu_active_color
+    - menu_parent_opened
+    - error_color
+    - success_color
+    - subtle_border
+    - sidebar_border
+    - pagination_color
+    - pagination_color_active
+    - pagination_border
+    - pagination_bg
+    - pagination_bg_active
+    - button_bg_start
+    - button_bg_end
+    - button_border
+    - button_color
+
+  source:
+    flickr: 0
+    smugmug: 1
+    google: 2
+
+  sub_plans:
+    - free
+    - starter
+    - premium
+
+  subscriptions:
+    free:
+      tier: 0
+      features:
+        media: 100
+        sync_hrs: 24
+        sync_lim: 1
+        static: true
+        about: true
+        contact: true
+        redirect: true
+        mediagrid: true
+        mediarow: true
+        mediacarousel: true
+        queue: :low
+
+    starter:
+      trial_period: 30
+      monthly: 5
+      tier: 1
+      features:
+        media: 300
+        sync_hrs: 12
+        sync_lim: 2
+        domain: true
+        basic_css: true
+        queue: :medium
+
+    premium:
+      trial_period: 30
+      monthly: 15
+      tier: 2
+      features:
+        media: -1
+        analytics: true
+        seo: true
+        sync_hrs: 6
+        sync_lim: 6
+        domain: true
+        branding: true
+        basic_css: true
+        skinning: true
+        queue: :high
+
+development: &development
+  <<: *base
+
+test: &test
+  <<: *base
+
+production: &production
+  <<: *base
+  domain: zapfol.io
+  portfolio_domain: zapfol.io
+  full_domain: "https://www.zapfol.io"
+
+  stripe:
+    secret_key: <SECRET>
+    publishable_key: <PUBLISHABLE>
+    webhook_key: <WEBHOOK>
+
+worker: &worker
+  <<: *production

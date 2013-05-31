@@ -1,0 +1,19 @@
+defaults: &defaults
+  host: 127.0.0.1
+  port: 27017
+
+development:
+  <<: *defaults
+  database: zapfolio_development
+
+test:
+  <<: *defaults
+  database: zapfolio_test
+
+production: &production
+  <<: *defaults
+  port: 29000
+  database: zapfolio_production
+
+worker:
+  <<: *production

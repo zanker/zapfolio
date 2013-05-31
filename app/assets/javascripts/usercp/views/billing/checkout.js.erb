@@ -1,0 +1,129 @@
+Zapfolio.Views.Billing.Checkout = Backbone.View.extend({
+  initialize: function(data) {
+    this.user = data.user;
+    this.website = data.website;
+    this.plan = data.plan;
+
+    this.mp_base = "Billing -> Checkout";
+    this.mp_track(null, {new_sub_plan: this.plan, had_card: $("#checkout_number").length == 0});
+  },
+
+  title: function() {
+    return I18n.t("usercp.titles.js.billing/checkout", {plan: I18n.t("js.sub_plans." + this.plan)});
+  },
+
+  events: {
+    "submit": "save"
+  },
+
+  render: function() {
+    this.$el.html(HandlebarsTemplates["billing/checkout"]({plan: this.plan, user: this.user, has_website: !!this.website.attributes.id}));
+    return this;
+  },
+
+  on_add: function() {
+    // Lazy load in the Stripe JS
+    if( typeof(Stripe) != "function" && $("#checkout_number").length == 1 ) {
+      var scope = this;
+      $.ajax({
+        dataType: "script",
+        cache: true,
+        url: "https://js.stripe.com/v1/",
+        complete: function() {
+          if( scope.waiting ) {
+            scope.$el.find("form").submit();
+          }
+          Stripe.setPublishableKey("<%= CONFIG[:stripe][:publishable_key] %>");
+        },
+        error: function() {
+          Zapfolio.Helpers.Errors.request_error("stripe");
+        }
+      });
+    }
+  },
+
+  // Form management
+  stripe_error: function(error) {
+    var field = "checkout_" + error.param;
+    // Default if needed for debugging purposes on production
+    if( $("#" + field).length == 0 ) field = "checkout_number";
+
+    this.display_error(this.$el, field, "", [error.message]);
+
+    this.$el.find("input[type='submit']").button("reset");
+    this.$el.find(".control-group.error").find("input:first,select:first").first().focus();
+  },
+
+  save: function(event) {
+    event.preventDefault();
+    this.$el.find("input[type='submit']").button("loading");
+    this.cleanup_errors();
+
+    var scope = this;
+
+    // We're sending the credit card to get a token
+    if( $("#checkout_number").length == 1 && !this.stripe_token ) {
+      // Stripes not loaded yet, so we're going to wait before submitting
+      if( typeof(Stripe) != "function" ) {
+        this.waiting = true;
+        return;
+      }
+
+      Stripe.createToken({
+        number: $("#checkout_number").val(),
+        cvc: $("#checkout_cvc").val(),
+        exp_month: $("#checkout_exp_month").val(),
+        exp_year: $("#checkout_exp_year").val()
+      }, function(status, response) {
+        if( response.error ) {
+          scope.stripe_error(response.error);
+        } else {
+          scope.stripe_token = response.id;
+          scope.$el.find("form").submit();
+        }
+      });
+
+      return;
+    }
+
+    // We're sending the actual subscription
+    Backbone.sync("create", this.user, {
+      url: "/admin/subscription",
+      contentType: "application/json",
+      data: JSON.stringify({email: $("#user_email").val(), subdomain: $("#website_subdomain").val(), coupon: $("#checkout_coupon").val(), token: this.stripe_token, plan: this.plan}),
+      error: function(res) {
+        if( res.responseText.match(/stripe_error/) ) {
+          scope.stripe_error(JSON.parse(res.responseText).stripe_error);
+        } else {
+          scope.handle_errors(res);
+        }
+      },
+      success: function(res) {
+        scope.mp_track("Purchased", {new_sub_plan: scope.plan, had_card: $("#checkout_number").length == 0});
+        scope.committed = true;
+
+        var subscription = res.stripe;
+        delete(res.stripe);
+
+        if( res.website ) {
+          scope.website.set(res.website);
+          delete(res.website);
+        }
+
+        scope.user.set(res);
+
+        $("div.alert").remove();
+
+        $("#site_title").text(I18n.t("usercp.titles.js.billing/purchased", {plan: I18n.t("js.sub_plans." + scope.plan)}));
+        scope.$el.html(HandlebarsTemplates["billing/purchased"]({user: scope.user, subscription: subscription}));
+      }
+    });
+  },
+
+  // For Mixpanel tracking
+  previousState: function() {
+    this.mp_track("Canceled", {new_sub_plan: this.plan});
+  }
+});
+
+_.extend(Zapfolio.Views.Billing.Checkout.prototype, Zapfolio.Helpers.Errors, Zapfolio.Helpers.Mixpanel);

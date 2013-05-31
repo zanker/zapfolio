@@ -1,0 +1,10 @@
+en:
+  usercp:
+    websites:
+      reorder_menus:
+        js:
+          menu_ordering: Menu Ordering
+          order_info: Drag the menu title to reorder it. Sub menus can only be reordered within their parent.
+          save: Save
+          saving: Saving
+          cancel: Cancel

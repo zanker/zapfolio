@@ -1,0 +1,13 @@
+en:
+  usercp:
+    websites:
+      intro:
+        js:
+          welcome_to_zapfolio: Welcome to Zapfolio
+          constantly_improving: We're constantly trying to improve, in order to make your life easier.
+          contact_us: Don't hesitate to contact us at %{email} if you have any questions, issues, suggestions or just want to chat.
+          what_now: What now?
+          just_close: If you want to get right to playing with the interface, just close this window.
+          however_suggest_edit: Creating a {media slideshow} page is a great way to show off your work, or perhaps fill in your {about page}.
+          however_suggest_new: Creating a {media slideshow} page is a great way to show off your work, or perhaps create an {about page}?
+          lets_go: Lets go!

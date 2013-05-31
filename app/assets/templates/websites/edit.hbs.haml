@@ -1,0 +1,111 @@
+.page-header
+  %h3
+    %a.go-back{:href => websites_path}= hb_i18n("usercp.websites.edit.js.website")
+    %span.divider /
+    = hb_i18n("usercp.websites.edit.js.configuration")
+
+%form.form-horizontal.medium{:method => :POST, :action => "/"}
+  .row-fluid
+    .span12
+      #error-list
+
+  .row-fluid
+    .span12
+      .well.well-small
+        %fieldset.control-group
+          %label.control-label{:for => :website_subdomain}= hb_i18n("usercp.websites.edit.js.subdomain")
+          .controls
+            .input-append
+              #{text_field_tag(:website_subdomain, hb("website.subdomain"), :class => "input-small", "data-nodemo" => "1")}#{content_tag(:span, ".zapfol.io", :class => "add-on")}
+            %span.help-block
+              %span.label.label-warning= hb_i18n("usercp.websites.edit.js.warning")
+              %span.align
+                = hb_i18n("usercp.websites.edit.js.subdomain_desc")
+                = hb "if page.domain" do
+                  = hb_i18n("usercp.websites.edit.js.subdomain_domain_desc")
+
+  .row-fluid
+    .span12
+      .well.well-small
+        %fieldset.control-group
+          %label.control-label{:for => :website_domain}= hb_i18n("usercp.websites.edit.js.domain")
+          .controls
+            = hb "has_access \"domain\"" do
+              = text_field_tag(:website_domain, hb("website.domain"), :class => "input-large", "data-nodemo" => "1")
+              %span.help-block
+                %span.label.label-important= hb_i18n("usercp.websites.edit.js.important")
+                %span.align= hb_i18n("usercp.websites.edit.js.domain_desc_1")
+
+              %span.help-block<
+                = hb_i18n("usercp.websites.edit.js.domain_desc_2", :ip => content_tag(:strong, CONFIG[:rewrite_ip]))
+              %span.help-block<
+                = hb_i18n("usercp.websites.edit.js.domain_desc_3")
+                %strong= "www.#{hb("website.subdomain")}.zapfol.io"
+                = hb_i18n("usercp.websites.edit.js.domain_desc_4")
+
+              %span.help-block<
+                = hb_i18n("usercp.websites.edit.js.domain_desc_5", :email => "<a href='mailto:#{CONFIG[:contact][:email]}'>#{CONFIG[:contact][:email]}</a>")
+              = hb "else"
+              = text_field_tag(:website_domain, "", :disabled => :disabled, :class => "input-large", "data-nodemo" => "1")
+              %span.help-block
+                %span.label.label-important= hb_i18n("js.sorry")
+                %span.align= hb! "linkify \"usercp.websites.edit.js.domain_upgrade\" \"#{billing_subscription_path}\""
+
+  .row-fluid
+    .span12
+      .well.well-small
+        %fieldset.control-group.large
+          %label.control-label{:for => :website_name}= hb_i18n("usercp.websites.edit.js.site_name")
+          .controls
+            = text_field_tag(:website_name, hb("website.name"), :class => "input-medium")
+            %span.help-inline= hb_i18n("usercp.websites.edit.js.site_name_desc")
+
+        %fieldset.control-group.large
+          %label.control-label{:for => :website_favicon}= hb_i18n("usercp.websites.edit.js.favicon")
+          .controls
+            %input.input-file{:type => :file, :name => :website_favicon, :id => :website_favicon, "data-nodemo" => "1"}
+            = hb "if website.favicon_uid" do
+              %label.checkbox
+                %input{:type => :checkbox, :name => :website_remove_favicon, :value => "1", "data-nodemo" => "1"}
+                = hb_i18n("usercp.websites.edit.js.remove_favicon")
+                = surround "(", ")" do
+                  %a#preview-favicon{:href => "#", "data-url" => hb("website.favicon_url"), "data-title" => hb_i18n("usercp.websites.edit.js.uploaded_favicon")}= hb_i18n("usercp.websites.edit.js.view_icon")
+
+            %span.help-block= hb_i18n("usercp.websites.edit.js.favicon_desc")
+        %fieldset.control-group.large
+          %label.control-label{:for => :website_meta_keywords}= hb_i18n("usercp.websites.edit.js.meta_keywords")
+          .controls
+            = hb "has_access \"seo\"" do
+              = text_field_tag("website_meta_keywords", hb("website.meta_keywords"), :class => "input-medium")
+              %span.help-inline= hb_i18n("usercp.websites.edit.js.meta_keywords_desc")
+              = hb "else"
+              = text_field_tag("website_meta_keywords", "", :class => "input-medium", :disabled => :disabled)
+              %span.help-inline.error-red= hb!("linkify \"usercp.websites.edit.js.upgrade_required\" \"#{billing_subscription_path}\"")
+
+        %fieldset.control-group.large
+          %label.control-label{:for => :website_meta_description}= hb_i18n("usercp.websites.edit.js.meta_description")
+          .controls
+            = hb "has_access \"seo\"" do
+              = text_area_tag("website_meta_description", hb("website.meta_description"), :rows => 2)
+              %span.help-inline= hb_i18n("usercp.websites.edit.js.meta_description_desc")
+              = hb "else"
+              = text_area_tag("website_meta_description", "", :rows => 2, :disabled => :disabled)
+              %span.help-inline.error-red= hb!("linkify \"usercp.websites.edit.js.upgrade_required\" \"#{billing_subscription_path}\"")
+
+        %fieldset.control-group.large
+          %label.control-label{:for => :website_analytic_ga}= hb_i18n("usercp.websites.edit.js.analytic_ga")
+          .controls
+            = hb "has_access \"analytics\"" do
+              = text_field_tag("website_analytics[ga]", hb("website.analytic.ga"), :class => "input-medium")
+              %span.help-inline= hb_i18n("usercp.websites.edit.js.analytic_ga_desc")
+              = hb "else"
+              = text_field_tag("website_analytics[ga]", "", :class => "input-medium", :disabled => :disabled)
+              %span.help-inlin.error-red= hb!("linkify \"usercp.websites.edit.js.upgrade_required\" \"#{billing_subscription_path}\"")
+
+
+  .row-fluid
+    .span12
+      .well.well-small
+        %a.btn.pull-left.go-back{:href => websites_path}= hb_i18n("js.cancel")
+        %input.btn.btn-success.pull-right{:type => :submit, :value => hb_i18n("js.save"), "data-loading-text" => hb_i18n("js.saving")}
+        .clearb

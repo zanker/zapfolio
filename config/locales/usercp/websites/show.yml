@@ -1,0 +1,39 @@
+en:
+  usercp:
+    websites:
+      show:
+        js:
+          menu: Menu
+          add_menu: Add
+          new_menu: New Menu
+          reorder: Reorder
+          set_page: Set Page
+          add_child: Add
+          remove: Remove
+          goes_to: ->
+          edit: Edit
+          page: page
+          no_page_set: no page set
+          new_sub_menu: New Sub Menu
+          remove_menu: Remove Menu
+          remove_sub_menu: Remove Sub Menu
+          removing: Removing
+          new_page: New Page
+          remove_page: Remove Page
+          name: Name
+          slug: Slug
+          home_page: Home?
+          type: Type
+          pages: Pages
+          actions: Actions
+          set: Set
+          set_home_page: Set Home Page
+          no_menus_yet_1: You haven't added a menu yet.
+          no_menus_yet_2: Press the {{icon}} button above one.
+          no_pages_yet_1: You haven't added a page yet.
+          no_pages_yet_2: Press the {{icon}} button above to get started.
+
+
+
+
+

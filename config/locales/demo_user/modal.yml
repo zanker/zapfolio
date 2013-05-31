@@ -1,0 +1,12 @@
+en:
+  demo_user:
+    modal:
+      please_wait: Please Wait...
+      setting_up: We are setting up your own demo account, give us a minute.
+      restrictions_expires: Demo accounts expire after %{expires} days and have some restrictions to what you can change.
+      ready_to_view: Your demo account is ready. Just click the button to the bottom right to try Zapfolio out.
+      finished: Finished
+      error: Error
+      creating: Creating
+      go: Go!
+

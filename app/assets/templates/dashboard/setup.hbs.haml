@@ -1,0 +1,36 @@
+#setup-header
+  .alert.alert-info
+    %h4.alert-heading= hb_i18n("usercp.dashboard.setup.js.welcome")
+    = hb "if user.attributes.email" do
+      = hb_i18n("usercp.dashboard.setup.js.website_name_desc")
+      = hb "else"
+      = hb_i18n("usercp.dashboard.setup.js.website_email_desc")
+
+.page-header
+  %h3= hb_i18n("usercp.dashboard.setup.js.setup_account")
+
+%form.form-horizontal.small#account-setup{:method => :POST, :action => "/"}
+  .row-fluid
+    .span12
+      .well.well-small
+        %fieldset
+          = hb "unless user.attributes.email" do
+            .control-group
+              %label.control-label{:for => :user_email}= hb_i18n("usercp.dashboard.setup.js.email")
+              .controls
+                = email_field_tag(:user_email)
+                %span.help-inline= hb_i18n("usercp.dashboard.setup.js.email_desc")
+
+          .control-group
+            %label.control-label{:for => :website_subdomain}= hb_i18n("usercp.dashboard.setup.js.subdomain")
+            .controls
+              .input-append<
+                #{text_field_tag(:website_subdomain, hb("user.attributes.username"), :class => "input-small")}#{content_tag(:span, ".zapfol.io", :class => "add-on")}
+              %span.help-inline= hb_i18n("usercp.dashboard.setup.js.subdomain_desc")
+
+  .row-fluid
+    .span12
+      .well.well-small
+        %p.pull-left#agreement= hb! "linkify \"usercp.dashboard.setup.js.agreeing_terms_policy\" \"#{privacy_policy_path}\" \"#{terms_conditions_path}\""
+        %input.btn.btn-success.pull-right{:type => :submit, :value => hb_i18n("js.create"), "data-loading-text" => hb_i18n("js.creating")}
+        .clearb

@@ -1,0 +1,33 @@
+en:
+  usercp:
+    billing:
+      show:
+        js:
+          subscription: Subscription
+          card_name: Name on Card
+          card_name_desc: The name on your credit card.
+          card_number: Credit Card Number
+          cvv: CVV/CVC
+          cvv_desc: 4 digit code on the front of your card for American Express. 3 digit on the back for everything else.
+          expiration: Expiration
+          expiration_desc: When the credit card expires.
+          update: Update
+          updating: Updating
+          add: Add
+          adding: Adding
+          change_credit_card: Change Credit Card
+          add_credit_card: Add Credit Card
+          credit_card_info: The current credit card we have for you is a {{type}} ending in {{last4}} (exp {{exp_month}}/{{exp_year}}).
+          cancel_subscription: Cancel Subscription
+          canceling: Canceling
+          sub_active: Your {{plan}} subscription is active! We will be billing you next on {{period_end}}.
+          sub_trial: Your {{plan}} subscription is in the trial period. Your first charge will be on {{trial_end}}.
+          sub_past_due: We were unable to charge your credit card for your {{plan}} subscription. Please correct it by entering an updated credit card below to avoid interruptions.
+          also_contact: You can also contact us at {{email}} if you have any questions.
+          sub_canceled: Your {{plan}} subscription has been canceled. You will have access to the {{plan}} features until {{period_end}}.
+          cancel_sub: If you no longer want your subscription, click below to cancel it.
+          cancel_contact: Please contact support at %{email} if you're canceling due to a site issue, and we can try to get it fixed for you.
+          no_subscription: You don't have an active subscription. If you're interested in upgrading, check out our {subscription plans}. It will only take a minute.
+          sub_canceled_changed: Changed your mind? Just click below and your subscription will no longer be canceled.
+          restart_sub: Restart Subscription
+          restarting: Restarting

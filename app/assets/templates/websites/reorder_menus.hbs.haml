@@ -1,0 +1,25 @@
+#reorder_menus.modal
+  %form.form-horizontal{:method => :POST, :action => "/"}
+    .modal-header
+      %h3
+        = hb_i18n("usercp.websites.reorder_menus.js.menu_ordering")
+
+    .modal-body
+      %p= hb_i18n("usercp.websites.reorder_menus.js.order_info")
+
+      %ol.parents
+        = hb "each website.menus" do
+          %li.parent{"data-menu-id" => hb("id")}
+            .name
+              %strong= hb("name")
+            = hb "if sub_menus" do
+              %ol.children
+                = hb "each sub_menus" do
+                  %li.child{"data-sub-menu-id" => hb("id")}
+                    .name= hb("name")
+
+
+    .modal-footer
+      %input.btn.pull-left{:type => :button, :value => hb_i18n("js.cancel"), "data-dismiss" => :modal}
+      %input.btn.btn-success{:type => :submit, :value => hb_i18n("usercp.websites.reorder_menus.js.save"), "data-loading-text" => hb_i18n("usercp.websites.reorder_menus.js.saving")}
+

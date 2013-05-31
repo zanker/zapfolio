@@ -1,0 +1,41 @@
+#manage_menu.modal
+  %form.form-horizontal{:method => :POST, :action => "/"}
+    .modal-header
+      %h3
+        = hb "if menu.id" do
+          = hb_i18n("usercp.websites.manage_menu.js.editing_menu")
+          = hb "else"
+          = hb_i18n("usercp.websites.manage_menu.js.adding_menu")
+
+    .modal-body
+      %fieldset.control-group
+        %label.control-label{:for => :website_menus_name}
+          %span.red *
+          = hb_i18n("usercp.websites.manage_menu.js.name")
+        .controls
+          = text_field_tag(:website_menus_name, hb("menu.name"), :class => "input-small")
+          %span.help-inline
+
+      %fieldset.control-group
+        %label.control-label{:for => :website_menus_opened}= hb_i18n("usercp.websites.manage_menu.js.opened")
+        .controls
+          %select.input-small#website_menus_opened{:name => :website_menus_opened}
+            = hb! "option 0 \"js.no\" menu.opened"
+            = hb! "option 1 \"js.yes\" menu.opened"
+          %span.help-block
+            = hb_i18n("usercp.websites.manage_menu.js.only_applies")
+
+      %fieldset.control-group
+        %label.control-label{:for => :website_menus_page_id}= hb_i18n("usercp.websites.manage_menu.js.goes_to_page")
+        .controls
+          %select.input-medium{:id => :website_menus_page_id}
+            %option{:value => ""}= "---"
+            = hb! "page_options this"
+
+          %span.help-block
+            = hb_i18n("usercp.websites.manage_menu.js.page_desc")
+
+    .modal-footer
+      %input.btn.pull-left{:type => :button, :value => hb_i18n("js.cancel"), "data-dismiss" => :modal}
+      %input.btn.btn-success{:type => :submit, :value => hb_i18n("usercp.websites.manage_menu.js.save"), "data-loading-text" => hb_i18n("usercp.websites.manage_menu.js.saving")}
+

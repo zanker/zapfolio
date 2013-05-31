@@ -1,0 +1,5 @@
+en:
+  mailer:
+    notification:
+      invoice_payment_failed:
+        subject: Billing error for your subscription
